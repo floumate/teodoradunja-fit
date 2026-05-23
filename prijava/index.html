@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prijavi se za ReShape90 — mentorski program sa Teodorom Dunjom." />
+  <title>Prijava — ReShape90 sa Dunjom</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --white: #FFFFFF;
+      --beige: #F1E0D3;
+      --beige-soft: #F9EFE5;
+      --sage: #A8B7A1;
+      --sage-dark: #879685;
+      --sage-tint: rgba(168, 183, 161, 0.12);
+      --text: #2A2825;
+      --text-muted: #74706A;
+      --border: #ECE3D6;
+      --border-focus: #A8B7A1;
+      --error: #B85450;
+      --error-bg: #FCF3F2;
+      --radius-card: 18px;
+      --radius-input: 10px;
+      --shadow-card:
+        0 1px 2px rgba(42, 40, 37, 0.04),
+        0 24px 60px -24px rgba(168, 183, 161, 0.25),
+        0 8px 20px -8px rgba(241, 224, 211, 0.4);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--white);
+      background-image:
+        radial-gradient(ellipse 90% 60% at 0% 0%, var(--beige) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 100% 100%, var(--sage-tint) 0%, transparent 55%);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+    }
+
+    .page { width: 100%; max-width: 520px; }
+
+    .card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 52px 44px 40px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      animation: cardIn 0.55s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--beige) 0%, var(--sage) 100%);
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card__header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--sage-dark);
+      font-weight: 500;
+      margin: 0 0 14px;
+    }
+
+    h1 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 400;
+      font-size: clamp(28px, 5vw, 36px);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+
+    h1 em {
+      font-style: italic;
+      font-weight: 400;
+    }
+
+    .lede {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.55;
+      margin: 0;
+      max-width: 380px;
+      margin-inline: auto;
+    }
+
+    form { display: block; }
+
+    .field {
+      margin-bottom: 22px;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    select {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      line-height: 1.4;
+      color: var(--text);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      transition: border-color 180ms ease, box-shadow 180ms ease, background 180ms ease;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder { color: #C0B8AC; }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+      background: #FDFBF7;
+    }
+
+    input:hover:not(:focus),
+    select:hover:not(:focus) { border-color: #DCCEBC; }
+
+    .phone-wrap {
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 8px;
+    }
+
+    select {
+      cursor: pointer;
+      padding-right: 36px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%2374706A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    .field[data-state="error"] input,
+    .field[data-state="error"] select {
+      border-color: var(--error);
+      background: var(--error-bg);
+    }
+
+    .field[data-state="error"] input:focus,
+    .field[data-state="error"] select:focus {
+      box-shadow: 0 0 0 4px rgba(184, 84, 80, 0.12);
+    }
+
+    .error-msg {
+      display: block;
+      font-size: 12.5px;
+      color: var(--error);
+      margin-top: 7px;
+      min-height: 0;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(-2px);
+      transition: max-height 200ms ease, opacity 180ms ease, transform 180ms ease, margin-top 180ms ease;
+    }
+
+    .field[data-state="error"] .error-msg {
+      max-height: 40px;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Honeypot — invisible to humans */
+    .hp {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .submit-btn {
+      width: 100%;
+      position: relative;
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      padding: 17px 24px;
+      border-radius: var(--radius-input);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background 180ms ease, transform 80ms ease, box-shadow 180ms ease;
+      margin-top: 6px;
+      box-shadow: 0 4px 14px -4px rgba(168, 183, 161, 0.45);
+    }
+
+    .submit-btn:hover { background: var(--sage-dark); box-shadow: 0 6px 18px -4px rgba(135, 150, 133, 0.55); }
+    .submit-btn:active { transform: translateY(1px); }
+    .submit-btn:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 3px; }
+    .submit-btn:disabled { cursor: wait; opacity: 0.9; }
+
+    .submit-btn[data-loading="true"] .btn-label { opacity: 0; }
+    .submit-btn[data-loading="true"] .btn-spinner { opacity: 1; }
+
+    .btn-spinner {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 180ms ease;
+    }
+    .btn-spinner::before {
+      content: '';
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .legal {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      text-align: center;
+      margin: 18px 0 0;
+    }
+
+    /* Success state */
+    .success-state {
+      text-align: center;
+      padding: 20px 0 8px;
+      animation: fadeIn 0.45s ease both;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: var(--sage);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      box-shadow: 0 8px 24px -8px rgba(168, 183, 161, 0.55);
+    }
+    .success-icon svg { width: 28px; height: 28px; }
+
+    .success-state h2 {
+      font-family: 'Fraunces', Georgia, serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 28px;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px;
+    }
+    .success-state p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.55;
+      margin: 0;
+      max-width: 360px;
+      margin-inline: auto;
+    }
+
+    /* Mobile */
+    @media (max-width: 520px) {
+      body { padding: 20px 16px; }
+      .card { padding: 38px 24px 28px; border-radius: 16px; }
+      .card__header { margin-bottom: 28px; }
+      .phone-wrap { grid-template-columns: 118px 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card" aria-labelledby="form-title">
+      <header class="card__header">
+        <p class="eyebrow">ReShape90</p>
+        <h1>Prijavi <em>se</em></h1>
+        <p class="lede">Popuni prijavu i javićemo ti se sa sledećim koracima.</p>
+      </header>
+
+      <form id="opt-in-form" novalidate autocomplete="on">
+        <div class="field" data-field="fullName">
+          <label for="fullName">Ime i prezime</label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            autocomplete="name"
+            placeholder="Npr. Ana Marković"
+            spellcheck="false"
+          />
+          <span class="error-msg" data-error-for="fullName" aria-live="polite"></span>
+        </div>
+
+        <div class="field" data-field="email">
+          <label for="email">Email adresa</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            placeholder="ana@primer.com"
+            spellcheck="false"
+            inputmode="email"
+          />
+          <span class="error-msg" data-error-for="email" aria-live="polite"></span>
+        </div>
+
+        <div class="field" data-field="phone">
+          <label for="phone">Broj telefona</label>
+          <div class="phone-wrap">
+            <select id="countryCode" name="countryCode" aria-label="Pozivni broj">
+              <option value="+381" data-min="8" data-max="9" data-country="RS" selected>🇷🇸 +381</option>
+              <option value="+382" data-min="8" data-max="8" data-country="ME">🇲🇪 +382</option>
+              <option value="+387" data-min="8" data-max="8" data-country="BA">🇧🇦 +387</option>
+              <option value="+385" data-min="8" data-max="9" data-country="HR">🇭🇷 +385</option>
+              <option value="+389" data-min="8" data-max="8" data-country="MK">🇲🇰 +389</option>
+              <option value="+386" data-min="8" data-max="8" data-country="SI">🇸🇮 +386</option>
+              <option value="+49"  data-min="10" data-max="11" data-country="DE">🇩🇪 +49</option>
+              <option value="+43"  data-min="10" data-max="11" data-country="AT">🇦🇹 +43</option>
+              <option value="+41"  data-min="9" data-max="9" data-country="CH">🇨🇭 +41</option>
+              <option value="+39"  data-min="9" data-max="10" data-country="IT">🇮🇹 +39</option>
+              <option value="+33"  data-min="9" data-max="9" data-country="FR">🇫🇷 +33</option>
+              <option value="+44"  data-min="10" data-max="10" data-country="GB">🇬🇧 +44</option>
+              <option value="+31"  data-min="9" data-max="9" data-country="NL">🇳🇱 +31</option>
+              <option value="+32"  data-min="8" data-max="9" data-country="BE">🇧🇪 +32</option>
+              <option value="+34"  data-min="9" data-max="9" data-country="ES">🇪🇸 +34</option>
+              <option value="+351" data-min="9" data-max="9" data-country="PT">🇵🇹 +351</option>
+              <option value="+353" data-min="9" data-max="9" data-country="IE">🇮🇪 +353</option>
+              <option value="+46"  data-min="9" data-max="9" data-country="SE">🇸🇪 +46</option>
+              <option value="+47"  data-min="8" data-max="9" data-country="NO">🇳🇴 +47</option>
+              <option value="+45"  data-min="8" data-max="8" data-country="DK">🇩🇰 +45</option>
+              <option value="+30"  data-min="10" data-max="10" data-country="GR">🇬🇷 +30</option>
+              <option value="+1"   data-min="10" data-max="10" data-country="US">🇺🇸 +1</option>
+              <option value="+61"  data-min="9" data-max="9" data-country="AU">🇦🇺 +61</option>
+            </select>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              autocomplete="tel"
+              placeholder="60 123 4567"
+              inputmode="tel"
+            />
+          </div>
+          <span class="error-msg" data-error-for="phone" aria-live="polite"></span>
+        </div>
+
+        <!-- Honeypot — bots fill this, humans don't see it -->
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <!-- Hidden tracking fields -->
+        <input type="hidden" name="page_url" id="page_url" />
+        <input type="hidden" name="referrer" id="referrer" />
+        <input type="hidden" name="utm_source" id="utm_source" />
+        <input type="hidden" name="utm_medium" id="utm_medium" />
+        <input type="hidden" name="utm_campaign" id="utm_campaign" />
+        <input type="hidden" name="utm_content" id="utm_content" />
+        <input type="hidden" name="utm_term" id="utm_term" />
+        <input type="hidden" name="submitted_at" id="submitted_at" />
+
+        <button type="submit" class="submit-btn" id="submit-btn">
+          <span class="btn-label">Pošalji prijavu</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+
+        <p class="legal">Klikom na „Pošalji prijavu" slažeš se da te kontaktiramo putem date adrese i broja telefona.</p>
+      </form>
+
+      <div class="success-state" id="success-state" hidden>
+        <div class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h2>Hvala ti!</h2>
+        <p>Prijava je uspešno poslata. Javićemo ti se uskoro sa sledećim koracima.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // =========================================================
+    //   CONFIG
+    // =========================================================
+    // Make.com webhook URL — postavi pre deploya
+    const WEBHOOK_URL = '';
+    // =========================================================
+
+    const form = document.getElementById('opt-in-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const successEl = document.getElementById('success-state');
+    const FIELDS = ['fullName', 'email', 'phone'];
+    const touched = {};
+
+    // ---------- Tracking fields ----------
+    (function populateTracking() {
+      const url = new URL(window.location.href);
+      document.getElementById('page_url').value = url.href;
+      document.getElementById('referrer').value = document.referrer || '';
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach((k) => {
+        document.getElementById(k).value = url.searchParams.get(k) || '';
+      });
+    })();
+
+    // ---------- Validation helpers ----------
+    function setError(field, msg) {
+      const fieldEl = document.querySelector(`.field[data-field="${field}"]`);
+      const errEl = document.querySelector(`[data-error-for="${field}"]`);
+      if (msg) {
+        fieldEl.dataset.state = 'error';
+        errEl.textContent = msg;
+      } else {
+        delete fieldEl.dataset.state;
+        errEl.textContent = '';
+      }
+    }
+
+    function validateName() {
+      const val = document.getElementById('fullName').value.trim();
+      if (!val) {
+        setError('fullName', 'Molimo unesi ime i prezime.');
+        return false;
+      }
+      // At least 2 words, each min 2 chars; supports Serbian diacritics + general Latin
+      const re = /^[A-Za-zŠĐČĆŽšđčćžÀ-ÿ'’\-]{2,}(\s+[A-Za-zŠĐČĆŽšđčćžÀ-ÿ'’\-]{2,})+$/;
+      if (!re.test(val)) {
+        setError('fullName', 'Unesi i ime i prezime, razdvojene razmakom.');
+        return false;
+      }
+      setError('fullName', null);
+      return true;
+    }
+
+    function validateEmail() {
+      const val = document.getElementById('email').value.trim();
+      if (!val) {
+        setError('email', 'Molimo unesi email adresu.');
+        return false;
+      }
+      const re = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+      if (!re.test(val) || val.length > 254) {
+        setError('email', 'Email adresa nije validna.');
+        return false;
+      }
+      setError('email', null);
+      return true;
+    }
+
+    function getPhoneRule() {
+      const sel = document.getElementById('countryCode');
+      const opt = sel.options[sel.selectedIndex];
+      return {
+        cc: sel.value,
+        min: parseInt(opt.dataset.min, 10) || 7,
+        max: parseInt(opt.dataset.max, 10) || 13,
+        country: opt.dataset.country || ''
+      };
+    }
+
+    function getCleanedPhoneDigits() {
+      const raw = document.getElementById('phone').value;
+      let digits = raw.replace(/\D/g, '');
+      // Strip a single leading zero (national format) — common in SR/EU
+      if (digits.startsWith('0')) digits = digits.slice(1);
+      return digits;
+    }
+
+    function validatePhone() {
+      const raw = document.getElementById('phone').value.trim();
+      if (!raw) {
+        setError('phone', 'Molimo unesi broj telefona.');
+        return false;
+      }
+      // Must be digits / spaces / dashes / parens only
+      if (!/^[\d\s\-()]+$/.test(raw)) {
+        setError('phone', 'Broj telefona sme da sadrži samo cifre.');
+        return false;
+      }
+      const digits = getCleanedPhoneDigits();
+      const { cc, min, max } = getPhoneRule();
+      if (digits.length < min || digits.length > max) {
+        const range = min === max ? `${min} cifara` : `${min}–${max} cifara`;
+        setError('phone', `Broj za ${cc} treba da ima ${range} (bez pozivnog broja).`);
+        return false;
+      }
+      setError('phone', null);
+      return true;
+    }
+
+    function validateField(field) {
+      switch (field) {
+        case 'fullName': return validateName();
+        case 'email':    return validateEmail();
+        case 'phone':    return validatePhone();
+      }
+    }
+
+    // ---------- Touched-state wiring ----------
+    FIELDS.forEach((f) => {
+      const input = document.getElementById(f);
+      input.addEventListener('blur', () => {
+        touched[f] = true;
+        validateField(f);
+      });
+      input.addEventListener('input', () => {
+        if (touched[f]) validateField(f);
+      });
+    });
+
+    document.getElementById('countryCode').addEventListener('change', () => {
+      // Re-validate phone live when country changes
+      if (touched.phone) validatePhone();
+    });
+
+    // ---------- Submit ----------
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Honeypot — silently "succeed" for bots without sending
+      if (document.getElementById('website').value.trim() !== '') {
+        showSuccess();
+        return;
+      }
+
+      // Force-validate all
+      FIELDS.forEach((f) => { touched[f] = true; });
+      const allValid = [validateName(), validateEmail(), validatePhone()].every(Boolean);
+      if (!allValid) {
+        const firstErr = document.querySelector('.field[data-state="error"] input, .field[data-state="error"] select');
+        if (firstErr) firstErr.focus();
+        return;
+      }
+
+      // Build payload
+      document.getElementById('submitted_at').value = new Date().toISOString();
+      const fullName = document.getElementById('fullName').value.trim().replace(/\s+/g, ' ');
+      const parts = fullName.split(' ');
+      const firstName = parts[0];
+      const lastName = parts.slice(1).join(' ');
+      const { cc, country } = getPhoneRule();
+      const phoneLocal = getCleanedPhoneDigits();
+      const phoneE164 = `${cc}${phoneLocal}`;
+
+      const payload = {
+        fullName,
+        firstName,
+        lastName,
+        email: document.getElementById('email').value.trim(),
+        countryCode: cc,
+        country,
+        phoneLocal,
+        phone: phoneE164,
+        page_url: document.getElementById('page_url').value,
+        referrer: document.getElementById('referrer').value,
+        utm_source: document.getElementById('utm_source').value,
+        utm_medium: document.getElementById('utm_medium').value,
+        utm_campaign: document.getElementById('utm_campaign').value,
+        utm_content: document.getElementById('utm_content').value,
+        utm_term: document.getElementById('utm_term').value,
+        submitted_at: document.getElementById('submitted_at').value,
+        user_agent: navigator.userAgent
+      };
+
+      submitBtn.dataset.loading = 'true';
+      submitBtn.disabled = true;
+
+      try {
+        if (WEBHOOK_URL) {
+          const res = await fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!res.ok) throw new Error(`Webhook ${res.status}`);
+        } else {
+          // No webhook configured — dev mode
+          console.log('[OPT-IN] Webhook not configured. Payload:', payload);
+          await new Promise((r) => setTimeout(r, 700));
+        }
+        showSuccess();
+      } catch (err) {
+        console.error('Submit failed:', err);
+        submitBtn.dataset.loading = 'false';
+        submitBtn.disabled = false;
+        alert('Došlo je do greške pri slanju. Pokušaj ponovo za par trenutaka.');
+      }
+    });
+
+    function showSuccess() {
+      form.style.display = 'none';
+      successEl.hidden = false;
+      // Optional: scroll into view on small screens
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+</body>
+</html>
