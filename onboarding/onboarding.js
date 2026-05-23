@@ -123,6 +123,11 @@
     likertChoice: null
   };
 
+  // Tracks which fields the user has actually focused (touched-state pattern)
+  var touchedFields = {};
+  // Flag to suppress all validators during step transitions
+  var stepInTransition = false;
+
   function findCountry(code) {
     if (!code) return null;
     for (var i = 0; i < COUNTRIES.length; i++) {
@@ -283,14 +288,20 @@
     }
   }
 
+  phoneIn.addEventListener('focus', function() {
+    if (!stepInTransition) touchedFields['phone'] = true;
+  });
+
   phoneIn.addEventListener('input', function() {
     phoneIn.value = phoneIn.value.replace(/[^\d\s\-()+]/g, '');
     autoDetectFromDialCode();
+    if (stepInTransition) return;
     if (phoneIn.closest('.field').classList.contains('error')) validatePhone();
   });
 
   phoneIn.addEventListener('blur', function() {
-    validatePhone();
+    if (stepInTransition) return;
+    if (touchedFields['phone']) validatePhone();
   });
 
   // =========================================================
@@ -470,6 +481,9 @@
   }
 
   function showStep(n, animateDir) {
+    // Suppress all validators during transition
+    stepInTransition = true;
+
     // Clear all errors before showing new step
     document.querySelectorAll('.field.error').forEach(function(f) {
       f.classList.remove('error');
@@ -478,15 +492,25 @@
 
     document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
     var target = document.querySelector('.step[data-step="' + n + '"]');
-    if (!target) return;
+    if (!target) {
+      stepInTransition = false;
+      return;
+    }
     target.classList.add('active');
     state.currentStep = n;
+
+    // Reset touched fields for new step
+    touchedFields = {};
+
     updateProgress();
     updateNav();
-    // Scroll to top of card smoothly
     setTimeout(function() {
       window.scrollTo({ top: card.offsetTop - 20, behavior: 'smooth' });
     }, 50);
+    // Re-enable validators after transition completes
+    setTimeout(function() {
+      stepInTransition = false;
+    }, 350);
     saveState();
   }
 
@@ -678,8 +702,8 @@
       case 4: return validateRadio('kakoSiDosla');
       case 5:
         return [
-          validateNumber('visina', { min: 120, max: 230 }),
-          validateNumber('tezina', { min: 35, max: 250 }),
+          validateNumber('visina', {}),
+          validateNumber('tezina', {}),
           (function() {
             var v = document.getElementById('krvnaGrupa').value;
             if (!v) { setError('krvnaGrupa', 'Izaberi krvnu grupu.'); return false; }
@@ -735,20 +759,28 @@
   }
 
   // =========================================================
-  //   LIVE VALIDATION - touched-state pattern (kao u prvoj formi)
+  //   LIVE VALIDATION - touched-state pattern
+  //   Errors only show after user actively interacts with the field.
+  //   stepInTransition flag suppresses validators during step changes.
   // =========================================================
   function bindLive(fieldId, validatorFn, eventName) {
     var el = document.getElementById(fieldId);
     if (!el) return;
-    // input/change - re-validate if error already shown
+
+    el.addEventListener('focus', function() {
+      if (!stepInTransition) touchedFields[fieldId] = true;
+    });
+
     el.addEventListener(eventName || 'input', function() {
+      if (stepInTransition) return;
       if (el.closest('.field').classList.contains('error')) {
         validatorFn();
       }
     });
-    // blur - validate always (touched-state)
+
     el.addEventListener('blur', function() {
-      validatorFn();
+      if (stepInTransition) return;
+      if (touchedFields[fieldId]) validatorFn();
     });
   }
 
@@ -758,8 +790,8 @@
   bindLive('zaposlenje', function() { return validateRequiredText('zaposlenje'); });
   bindLive('mesto', function() { return validateRequiredText('mesto'); });
   bindLive('brojClanova', function() { return validateNumber('brojClanova', { optional: true, min: 1, max: 30 }); });
-  bindLive('visina', function() { return validateNumber('visina', { min: 120, max: 230 }); });
-  bindLive('tezina', function() { return validateNumber('tezina', { min: 35, max: 250 }); });
+  bindLive('visina', function() { return validateNumber('visina', {}); });
+  bindLive('tezina', function() { return validateNumber('tezina', {}); });
   bindLive('krvnaGrupa', function() {
     var v = document.getElementById('krvnaGrupa').value;
     if (!v) { setError('krvnaGrupa', 'Izaberi krvnu grupu.'); return false; }
