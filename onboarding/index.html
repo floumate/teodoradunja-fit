@@ -801,16 +801,24 @@
       border-radius: 50% !important;
       max-width: none !important;
       width: 100% !important;
-      height: 0 !important;
-      padding-bottom: 100% !important;
-      line-height: 0 !important;
+      aspect-ratio: 1 / 1 !important;
+      height: auto !important;
+      line-height: 1 !important;
       margin: 0 !important;
+      padding: 0 !important;
       border: 1.5px solid transparent !important;
       transition: background var(--transition), color var(--transition), border-color var(--transition) !important;
-      position: relative !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
+    }
+    /* Fallback for browsers without aspect-ratio support */
+    @supports not (aspect-ratio: 1 / 1) {
+      .flatpickr-day {
+        aspect-ratio: auto !important;
+        height: 42px !important;
+        padding-bottom: 0 !important;
+      }
     }
     .flatpickr-day:hover:not(.selected):not(.flatpickr-disabled) {
       background: var(--beige-soft) !important;
