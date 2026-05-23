@@ -143,27 +143,27 @@
     input[type="email"],
     input[type="tel"] {
       width: 100%;
-      padding: 15px 16px;
+      padding: 14px 16px;
       font-family: inherit;
       font-size: 15px;
       font-weight: 400;
       line-height: 1.4;
       color: var(--text);
-      background: var(--beige-soft);
-      border: 2px solid transparent;
+      background: var(--white);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-input);
       transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
       -webkit-appearance: none;
       appearance: none;
     }
 
-    input::placeholder { color: #B8AE9F; font-weight: 400; }
+    input::placeholder { color: #C0B8AC; font-weight: 400; }
 
-    input:hover:not(:focus):not(.error) { background: var(--beige-hover); }
+    input:hover:not(:focus):not(.error) { border-color: #DCCEBC; }
 
     input:focus {
       outline: none;
-      background: var(--white);
+      background: #FDFBF7;
       border-color: var(--sage);
       box-shadow: 0 0 0 4px var(--sage-tint);
     }
@@ -193,16 +193,16 @@
       position: relative;
       display: flex;
       align-items: stretch;
-      background: var(--beige-soft);
-      border: 2px solid transparent;
+      background: var(--white);
+      border: 1.5px solid var(--border);
       border-radius: var(--radius-input);
       transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
     }
 
-    .phone-row:hover:not(.error):not(:focus-within) { background: var(--beige-hover); }
+    .phone-row:hover:not(.error):not(:focus-within) { border-color: #DCCEBC; }
 
     .phone-row:focus-within {
-      background: var(--white);
+      background: #FDFBF7;
       border-color: var(--sage);
       box-shadow: 0 0 0 4px var(--sage-tint);
     }
@@ -436,6 +436,8 @@
     }
 
     /* Success state */
+    .card.success-mode .card__header { display: none; }
+
     .success-state {
       text-align: center;
       padding: 20px 0 8px;
@@ -989,6 +991,7 @@
 
     function showSuccess() {
       form.style.display = 'none';
+      document.querySelector('.card').classList.add('success-mode');
       successEl.hidden = false;
       successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
