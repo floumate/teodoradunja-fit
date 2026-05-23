@@ -1134,6 +1134,11 @@
         locale: 'sr',
         minDate: minStart,
         maxDate: maxStartUI,
+        // Override Flatpickr's "today" to the first selectable date.
+        // Otherwise the real today (May 23) gets the "today" circle even though
+        // it's disabled, which looks misleading.
+        now: minStart,
+        defaultDate: null,
         disable: [
           function(date) {
             // Strict constraint: date must be within today+5 to today+6mo
