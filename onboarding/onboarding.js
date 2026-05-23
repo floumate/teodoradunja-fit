@@ -127,6 +127,8 @@
   var touchedFields = {};
   // Flag to suppress all validators during step transitions
   var stepInTransition = false;
+  // Tracks pending auto-next setTimeout so we can cancel it if user clicks Dalje manually
+  var autoNextTimer = null;
 
   function findCountry(code) {
     if (!code) return null;
@@ -445,7 +447,11 @@
         saveState();
 
         if (autoNext) {
-          setTimeout(function() { goNext(); }, AUTO_NEXT_DELAY);
+          if (autoNextTimer) clearTimeout(autoNextTimer);
+          autoNextTimer = setTimeout(function() {
+            autoNextTimer = null;
+            goNext();
+          }, AUTO_NEXT_DELAY);
         }
       });
     });
@@ -467,7 +473,11 @@
         if (errEl) errEl.textContent = '';
         saveState();
         if (autoNext) {
-          setTimeout(function() { goNext(); }, AUTO_NEXT_DELAY);
+          if (autoNextTimer) clearTimeout(autoNextTimer);
+          autoNextTimer = setTimeout(function() {
+            autoNextTimer = null;
+            goNext();
+          }, AUTO_NEXT_DELAY);
         }
       });
     });
@@ -481,6 +491,13 @@
   }
 
   function showStep(n, animateDir) {
+    // Cancel any pending auto-next from a previous radio/likert click
+    // (prevents race: user picks radio, immediately clicks Dalje,
+    //  then 250ms later auto-next would fire validateStep on the NEW step)
+    if (autoNextTimer) {
+      clearTimeout(autoNextTimer);
+      autoNextTimer = null;
+    }
     // Suppress all validators during transition
     stepInTransition = true;
 
@@ -1104,11 +1121,25 @@
       minStart.setDate(minStart.getDate() + 5);
       var maxStart = new Date();
       maxStart.setMonth(maxStart.getMonth() + 6);
+
+      // Extend UI maxDate to next year-end so year input is editable.
+      // Real 6-month constraint is enforced via disable callback below.
+      var maxStartUI = new Date();
+      maxStartUI.setFullYear(maxStartUI.getFullYear() + 1);
+      maxStartUI.setMonth(11);
+      maxStartUI.setDate(31);
+
       fpStarta = flatpickr(startaDisplay, {
         dateFormat: 'j. F Y.',
         locale: 'sr',
         minDate: minStart,
-        maxDate: maxStart,
+        maxDate: maxStartUI,
+        disable: [
+          function(date) {
+            // Strict constraint: date must be within today+5 to today+6mo
+            return date > maxStart;
+          }
+        ],
         monthSelectorType: 'dropdown',
         disableMobile: true,
         appendTo: document.body,
