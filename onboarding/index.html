@@ -71,14 +71,6 @@
       animation: cardIn 0.55s cubic-bezier(0.2, 0.7, 0.25, 1) both;
     }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--beige) 0%, var(--sage) 100%);
-    }
-
     @keyframes cardIn {
       from { opacity: 0; transform: translateY(12px); }
       to { opacity: 1; transform: translateY(0); }
@@ -606,10 +598,10 @@
       border: 1px solid var(--border) !important;
       border-radius: var(--radius-input) !important;
       box-shadow: var(--shadow-dropdown) !important;
-      padding: 14px !important;
+      padding: 16px 14px !important;
       background: var(--white) !important;
       z-index: 9999 !important;
-      width: 320px !important;
+      width: 340px !important;
       box-sizing: border-box;
     }
     .flatpickr-calendar.arrowTop:before,
@@ -619,29 +611,42 @@
       display: none !important;
     }
     .flatpickr-months {
-      align-items: center;
-      padding: 0 0 6px;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 0 0 10px !important;
+      height: auto !important;
     }
     .flatpickr-months .flatpickr-month {
+      flex: 1 !important;
       background: transparent !important;
       color: var(--text) !important;
       fill: var(--text) !important;
       height: auto !important;
       overflow: visible !important;
+      line-height: 1 !important;
     }
     .flatpickr-months .flatpickr-prev-month,
     .flatpickr-months .flatpickr-next-month {
+      position: static !important;
+      flex-shrink: 0 !important;
       fill: var(--text-muted) !important;
-      padding: 6px 10px !important;
+      padding: 8px 10px !important;
       border-radius: 10px !important;
-      transition: background var(--transition) !important;
+      transition: background var(--transition), fill var(--transition) !important;
       height: auto !important;
-      top: 4px !important;
+      width: auto !important;
+      top: auto !important;
     }
     .flatpickr-months .flatpickr-prev-month:hover,
     .flatpickr-months .flatpickr-next-month:hover {
       fill: var(--text) !important;
       background: var(--beige-soft) !important;
+    }
+    .flatpickr-months .flatpickr-prev-month.flatpickr-disabled,
+    .flatpickr-months .flatpickr-next-month.flatpickr-disabled {
+      opacity: 0.3 !important;
+      pointer-events: none;
     }
     .flatpickr-months .flatpickr-prev-month svg,
     .flatpickr-months .flatpickr-next-month svg {
@@ -652,17 +657,18 @@
       font-family: 'Poppins', sans-serif !important;
       font-size: 14px !important;
       font-weight: 500 !important;
-      padding: 6px 0 !important;
+      padding: 0 !important;
       display: flex !important;
       align-items: center !important;
       justify-content: center !important;
-      gap: 6px !important;
+      gap: 10px !important;
       height: auto !important;
       top: 0 !important;
       left: 0 !important;
       right: 0 !important;
       width: 100% !important;
       position: relative !important;
+      line-height: 1 !important;
     }
     .flatpickr-current-month .flatpickr-monthDropdown-months {
       font-family: 'Poppins', sans-serif !important;
@@ -670,9 +676,12 @@
       font-weight: 500 !important;
       color: var(--text) !important;
       border-radius: 8px !important;
-      padding: 4px 8px !important;
+      padding: 6px 10px !important;
       transition: background var(--transition) !important;
       background: transparent !important;
+      appearance: none !important;
+      cursor: pointer !important;
+      border: none !important;
     }
     .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
       background: var(--beige-soft) !important;
@@ -685,44 +694,75 @@
       width: auto !important;
       display: inline-flex !important;
       align-items: center !important;
+      position: relative !important;
     }
     .flatpickr-current-month input.cur-year {
       font-family: 'Poppins', sans-serif !important;
       font-size: 14px !important;
       font-weight: 500 !important;
       color: var(--text) !important;
-      padding: 4px 4px !important;
-      width: 56px !important;
+      padding: 6px 18px 6px 8px !important;
+      width: 76px !important;
       background: transparent !important;
-      border: none !important;
+      border: 1.5px solid transparent !important;
       text-align: center !important;
-      border-radius: 6px !important;
-      transition: background var(--transition) !important;
+      border-radius: 8px !important;
+      transition: background var(--transition), border-color var(--transition) !important;
+      cursor: text !important;
+      line-height: 1 !important;
+      height: auto !important;
     }
-    .flatpickr-current-month input.cur-year:hover,
-    .flatpickr-current-month input.cur-year:focus {
+    .flatpickr-current-month input.cur-year:hover {
       background: var(--beige-soft) !important;
     }
-    .numInputWrapper span {
-      border-color: transparent !important;
+    .flatpickr-current-month input.cur-year:focus {
+      background: var(--white) !important;
+      border-color: var(--sage) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px var(--sage-tint) !important;
     }
-    .numInputWrapper span.arrowUp:after { border-bottom-color: var(--text-muted) !important; }
-    .numInputWrapper span.arrowDown:after { border-top-color: var(--text-muted) !important; }
-    .numInputWrapper:hover span.arrowUp:after,
-    .numInputWrapper:hover span.arrowDown:after {
+    .numInputWrapper span {
+      border: none !important;
+      background: transparent !important;
+      opacity: 1 !important;
+      right: 2px !important;
+    }
+    .numInputWrapper:hover span {
+      background: rgba(168, 183, 161, 0.08) !important;
+    }
+    .numInputWrapper span.arrowUp:after {
+      border-bottom-color: var(--text-muted) !important;
+    }
+    .numInputWrapper span.arrowDown:after {
+      border-top-color: var(--text-muted) !important;
+    }
+    .numInputWrapper:hover span.arrowUp:after {
       border-bottom-color: var(--sage-dark) !important;
+    }
+    .numInputWrapper:hover span.arrowDown:after {
       border-top-color: var(--sage-dark) !important;
     }
 
+    .flatpickr-innerContainer {
+      display: block !important;
+    }
+    .flatpickr-rContainer {
+      display: block !important;
+      width: 100% !important;
+    }
     .flatpickr-weekdays {
       background: transparent !important;
-      margin-top: 8px !important;
+      margin: 4px 0 !important;
       height: auto !important;
+      display: block !important;
     }
     .flatpickr-weekdaycontainer {
       width: 100% !important;
+      display: grid !important;
+      grid-template-columns: repeat(7, 1fr) !important;
+      gap: 2px !important;
     }
-    .flatpickr-weekday {
+    span.flatpickr-weekday {
       font-family: 'Poppins', sans-serif !important;
       font-size: 11px !important;
       font-weight: 500 !important;
@@ -730,11 +770,19 @@
       letter-spacing: 0.04em !important;
       text-transform: uppercase !important;
       background: transparent !important;
-      padding: 6px 0 !important;
+      padding: 8px 0 !important;
+      text-align: center !important;
+      max-width: none !important;
+      flex: none !important;
+      display: block !important;
+      width: 100% !important;
+      cursor: default !important;
+      margin: 0 !important;
     }
     .flatpickr-days {
-      padding: 4px 0 !important;
+      padding: 0 !important;
       width: 100% !important;
+      min-width: 0 !important;
     }
     .dayContainer {
       padding: 0 !important;
@@ -743,7 +791,7 @@
       max-width: none !important;
       display: grid !important;
       grid-template-columns: repeat(7, 1fr) !important;
-      gap: 2px !important;
+      gap: 3px !important;
       justify-content: stretch !important;
     }
     .flatpickr-day {
@@ -753,15 +801,21 @@
       border-radius: 50% !important;
       max-width: none !important;
       width: 100% !important;
-      height: 36px !important;
-      line-height: 34px !important;
+      height: 0 !important;
+      padding-bottom: 100% !important;
+      line-height: 0 !important;
       margin: 0 !important;
       border: 1.5px solid transparent !important;
       transition: background var(--transition), color var(--transition), border-color var(--transition) !important;
+      position: relative !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
     .flatpickr-day:hover:not(.selected):not(.flatpickr-disabled) {
       background: var(--beige-soft) !important;
       border-color: transparent !important;
+      color: var(--text) !important;
     }
     .flatpickr-day.today:not(.selected) {
       border-color: var(--sage) !important;
@@ -1035,12 +1089,12 @@
           <div class="field-row">
             <div class="field" data-field="visina">
               <label for="visina">Visina (cm) <span class="required">*</span></label>
-              <input type="number" id="visina" name="visina" placeholder="170" min="120" max="230" inputmode="numeric" />
+              <input type="number" id="visina" name="visina" placeholder="170" inputmode="numeric" />
               <span class="error-msg" id="visinaError"></span>
             </div>
             <div class="field" data-field="tezina">
               <label for="tezina">Težina (kg) <span class="required">*</span></label>
-              <input type="number" id="tezina" name="tezina" placeholder="70" min="35" max="250" step="0.1" inputmode="decimal" />
+              <input type="number" id="tezina" name="tezina" placeholder="70" step="0.1" inputmode="decimal" />
               <span class="error-msg" id="tezinaError"></span>
             </div>
           </div>
