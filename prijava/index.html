@@ -597,7 +597,7 @@
     // =========================================================
     //   CONFIG — postavi pre deploya
     // =========================================================
-    var WEBHOOK_URL = 'https://hook.eu1.make.com/qftdnifi3ttsbe445tu3q1dp1qi1b2hy'; // <-- Make.com webhook URL ide ovde
+    var WEBHOOK_URL = 'https://hook.eu1.make.com/qftdnifi3ttsbe445tu3q1dp1qi1b2hy';
     var REDIRECT_URL = ''; // <-- (opciono) ako želiš redirect na hvala stranicu
     // =========================================================
 
@@ -966,8 +966,7 @@
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
-            keepalive: true,
-            mode: 'no-cors'
+            keepalive: true
           }).catch(function () {});
         } catch (err) {
           if (navigator.sendBeacon) {
