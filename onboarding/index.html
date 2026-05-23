@@ -519,17 +519,14 @@
     }
     .ingredient-input:disabled { opacity: 0.5; cursor: not-allowed; }
     .ingredient-suggestions {
-      position: absolute;
-      top: calc(100% + 6px);
-      left: 0; right: 0;
+      display: none;
       background: var(--white);
       border: 1px solid var(--border);
       border-radius: var(--radius-input);
       box-shadow: var(--shadow-dropdown);
       max-height: 240px;
       overflow-y: auto;
-      z-index: 100;
-      display: none;
+      z-index: 9999;
     }
     .ingredient-suggestions.open { display: block; }
     .ingredient-suggestion {
