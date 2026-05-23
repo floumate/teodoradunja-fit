@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Onboarding upitnik za ReShape90 program sa Teodorom Dunjom." />
-  <title>Onboarding upitnik — ReShape90 sa Dunjom</title>
+  <title>Onboarding upitnik - ReShape90 sa Dunjom</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -349,7 +349,7 @@
     .country-item-dial { color: var(--text-muted); font-weight: 500; }
     .country-item.selected .country-item-dial { color: var(--sage-dark); }
 
-    /* Radio buttons — card style */
+    /* Radio buttons - card style */
     .radio-group {
       display: flex;
       flex-direction: column;
@@ -554,6 +554,239 @@
     }
     .ingredient-counter.full { color: var(--sage-dark); }
 
+    /* =========================================================
+       FIX Z-INDEX: ensure dropdowns appear above nav buttons
+       ========================================================= */
+    .step.active { position: relative; z-index: 2; }
+    .nav-row { position: relative; z-index: 1; }
+
+    /* =========================================================
+       CUSTOM DATEPICKER
+       ========================================================= */
+    .datepicker { position: relative; }
+
+    .datepicker-trigger {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-align: left;
+      line-height: 1.4;
+    }
+    .datepicker-trigger:hover:not(.open) { border-color: #DCCEBC; }
+    .datepicker-trigger.open,
+    .datepicker-trigger:focus {
+      outline: none;
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+    .field.error .datepicker-trigger {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+    .datepicker-trigger-icon {
+      width: 18px; height: 18px;
+      flex-shrink: 0;
+      color: var(--text-muted);
+    }
+    .datepicker-trigger.open .datepicker-trigger-icon,
+    .datepicker-trigger.has-value .datepicker-trigger-icon {
+      color: var(--sage-dark);
+    }
+    .datepicker-trigger-text { flex: 1; color: var(--text); }
+    .datepicker-trigger-text.placeholder { color: #C0B8AC; }
+
+    .datepicker-popup {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 320px;
+      max-width: calc(100vw - 40px);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      box-shadow: var(--shadow-dropdown);
+      z-index: 200;
+      padding: 16px;
+      animation: dpIn 0.2s ease;
+    }
+    @keyframes dpIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .datepicker-popup[hidden] { display: none; }
+
+    .datepicker-header {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 12px;
+    }
+    .datepicker-nav-btn {
+      width: 32px; height: 32px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: background var(--transition), color var(--transition);
+      flex-shrink: 0;
+    }
+    .datepicker-nav-btn:hover:not(:disabled) {
+      background: var(--beige-soft);
+      color: var(--text);
+    }
+    .datepicker-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+    .datepicker-nav-btn svg { width: 14px; height: 14px; }
+
+    .datepicker-title {
+      flex: 1;
+      text-align: center;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      transition: background var(--transition);
+      font-family: inherit;
+    }
+    .datepicker-title:hover { background: var(--beige-soft); }
+
+    .datepicker-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+      margin-bottom: 4px;
+    }
+    .datepicker-weekday {
+      text-align: center;
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding: 6px 0;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .datepicker-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 2px;
+    }
+    .datepicker-day {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--text);
+      transition: background var(--transition), color var(--transition);
+      padding: 0;
+    }
+    .datepicker-day:hover:not(:disabled):not(.selected) {
+      background: var(--beige-soft);
+    }
+    .datepicker-day.other-month {
+      color: var(--text-muted);
+      opacity: 0.35;
+    }
+    .datepicker-day.today:not(.selected) {
+      font-weight: 600;
+      color: var(--sage-dark);
+      box-shadow: inset 0 0 0 1.5px var(--sage);
+    }
+    .datepicker-day.selected {
+      background: var(--sage);
+      color: var(--white);
+      font-weight: 500;
+    }
+    .datepicker-day:disabled {
+      color: #d4d0c8;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .datepicker-months,
+    .datepicker-years {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+    }
+    .datepicker-month-item,
+    .datepicker-year-item {
+      padding: 12px 8px;
+      border-radius: 10px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      color: var(--text);
+      transition: background var(--transition), color var(--transition);
+    }
+    .datepicker-month-item:hover:not(:disabled):not(.selected),
+    .datepicker-year-item:hover:not(:disabled):not(.selected) {
+      background: var(--beige-soft);
+    }
+    .datepicker-month-item.selected,
+    .datepicker-year-item.selected {
+      background: var(--sage);
+      color: var(--white);
+      font-weight: 500;
+    }
+    .datepicker-month-item:disabled,
+    .datepicker-year-item:disabled {
+      color: #d4d0c8;
+      cursor: not-allowed;
+      opacity: 0.5;
+    }
+
+    .datepicker-footer {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+    }
+    .datepicker-footer button {
+      flex: 1;
+      padding: 9px;
+      border-radius: 10px;
+      border: 1.5px solid var(--border);
+      background: var(--white);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .datepicker-footer button:hover {
+      border-color: var(--sage);
+      background: var(--beige-soft);
+    }
+
     /* Terms box */
     .terms-box {
       background: var(--beige-soft);
@@ -691,9 +924,6 @@
     <section class="card" id="card">
 
       <div class="progress-wrap">
-        <div class="progress-label">
-          <span id="progressText">Korak 1 od 26</span>
-        </div>
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
       </div>
 
@@ -739,8 +969,9 @@
           <p class="step-desc">Nekoliko osnovnih informacija.</p>
 
           <div class="field" data-field="datumRodjenja">
-            <label for="datumRodjenja">Datum rođenja <span class="required">*</span></label>
-            <input type="date" id="datumRodjenja" name="datumRodjenja" />
+            <label>Datum rođenja <span class="required">*</span></label>
+            <input type="hidden" id="datumRodjenja" name="datumRodjenja" />
+            <div class="datepicker" data-target="datumRodjenja" data-placeholder="Izaberi datum"></div>
             <span class="error-msg" id="datumRodjenjaError"></span>
           </div>
 
@@ -861,19 +1092,19 @@
 
           <div class="field" data-field="bolestiAlergije">
             <label for="bolestiAlergije">Da li boluješ od neke hronične bolesti ili alergije? <span class="required">*</span></label>
-            <textarea id="bolestiAlergije" name="bolestiAlergije" placeholder="Ako ne — napiši 'Ne'. Ako da — opiši šta."></textarea>
+            <textarea id="bolestiAlergije" name="bolestiAlergije" placeholder="Ako ne - napiši 'Ne'. Ako da - opiši šta."></textarea>
             <span class="error-msg" id="bolestiAlergijeError"></span>
           </div>
 
           <div class="field" data-field="terapija">
             <label for="terapija">Redovna terapija i suplementacija <span class="required">*</span></label>
-            <textarea id="terapija" name="terapija" placeholder="Ako ne uzimaš ništa — napiši 'Ne'."></textarea>
+            <textarea id="terapija" name="terapija" placeholder="Ako ne uzimaš ništa - napiši 'Ne'."></textarea>
             <span class="error-msg" id="terapijaError"></span>
           </div>
 
           <div class="field" data-field="povrede">
             <label for="povrede">Istorija povreda, operacija i bolova u telu <span class="required">*</span></label>
-            <textarea id="povrede" name="povrede" placeholder="Ako nema — napiši 'Ne'."></textarea>
+            <textarea id="povrede" name="povrede" placeholder="Ako nema - napiši 'Ne'."></textarea>
             <span class="error-msg" id="povredeError"></span>
           </div>
         </div>
@@ -897,7 +1128,7 @@
           <p class="step-desc">Prirodnim putem ili carskim rezom? Kada je bio poslednji porođaj?</p>
 
           <div class="field" data-field="porodjaji">
-            <textarea id="porodjaji" name="porodjaji" placeholder="Ako ne — napiši 'Ne'. Ako da — opiši (broj, vrsta, kada)."></textarea>
+            <textarea id="porodjaji" name="porodjaji" placeholder="Ako ne - napiši 'Ne'. Ako da - opiši (broj, vrsta, kada)."></textarea>
             <span class="error-msg" id="porodjajiError"></span>
           </div>
         </div>
@@ -926,8 +1157,8 @@
 
         <!-- STEP 15: Najradije jedeš -->
         <div class="step" data-step="15">
-          <h2>Šta bi od namirnica najradije da jedeš? <span class="required">*</span></h2>
-          <p class="step-desc">Izaberi do 10 namirnica koje voliš. Kucaj da pretražiš.</p>
+          <h2>Šta bi od namirnica najradije da jedeš? <span class="optional-tag">(opciono)</span></h2>
+          <p class="step-desc">Izaberi do 10 namirnica koje voliš. Kucaj da pretražiš. Ako nemaš preferenciju, samo nastavi dalje.</p>
 
           <div class="field" data-field="namirniceNajradije">
             <div class="ingredient-wrap" id="najradijeWrap">
@@ -941,8 +1172,8 @@
 
         <!-- STEP 16: Ne voliš -->
         <div class="step" data-step="16">
-          <h2>Šta od namirnica ne voliš da jedeš? <span class="required">*</span></h2>
-          <p class="step-desc">Izaberi do 10 namirnica koje ne želiš u jelovniku.</p>
+          <h2>Šta od namirnica ne voliš da jedeš? <span class="optional-tag">(opciono)</span></h2>
+          <p class="step-desc">Izaberi do 10 namirnica koje ne želiš u jelovniku. Ako nemaš preferenciju, samo nastavi dalje.</p>
 
           <div class="field" data-field="namirniceNeVolis">
             <div class="ingredient-wrap" id="neVolisWrap">
@@ -1022,7 +1253,7 @@
         <!-- STEP 23: Rekviziti (samo ako Kućna) -->
         <div class="step" data-step="23">
           <h2>Sa kojim rekvizitima baratamo? <span class="required">*</span></h2>
-          <p class="step-desc">Pošto si izabrala kućnu varijantu — napiši mi detaljno: ako imaš tegove koje su kilaže (bučice, ploče, girja), ako imaš trake, napiši mi da li su otvorenog ili zatvorenog tipa, jačine i dužine. Možeš da mi pošalješ i slike na WhatsApp ako ti je tako lakše.</p>
+          <p class="step-desc">Pošto si izabrala kućnu varijantu - napiši mi detaljno: ako imaš tegove koje su kilaže (bučice, ploče, girja), ako imaš trake, napiši mi da li su otvorenog ili zatvorenog tipa, jačine i dužine. Možeš da mi pošalješ i slike na WhatsApp ako ti je tako lakše.</p>
 
           <div class="field" data-field="rekviziti">
             <textarea id="rekviziti" name="rekviziti" placeholder="Opiši rekvizite koje imaš kod kuće..." style="min-height: 120px;"></textarea>
@@ -1033,7 +1264,7 @@
         <!-- STEP 24: Spremnost 1-5 -->
         <div class="step" data-step="24">
           <h2>Koliko si spremna da se posvetiš programu? <span class="required">*</span></h2>
-          <p class="step-desc">Iskreno — na skali od 1 do 5.</p>
+          <p class="step-desc">Iskreno - na skali od 1 do 5.</p>
 
           <div class="likert" data-likert="spremnost" data-auto-next="true">
             <span class="likert-anchor left">nisam spremna</span>
@@ -1055,7 +1286,8 @@
           <p class="step-desc">Imaj u vidu da mi je potrebno između 5-10 dana u zavisnosti od broja prijava, da ti pripremim program i sve što je potrebno za start.</p>
 
           <div class="field" data-field="datumStarta">
-            <input type="date" id="datumStarta" name="datumStarta" />
+            <input type="hidden" id="datumStarta" name="datumStarta" />
+            <div class="datepicker" data-target="datumStarta" data-placeholder="Izaberi datum starta"></div>
             <span class="error-msg" id="datumStartaError"></span>
           </div>
         </div>
