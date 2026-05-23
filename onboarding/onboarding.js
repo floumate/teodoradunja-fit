@@ -308,6 +308,8 @@
 
   // =========================================================
   //   INGREDIENT PICKER (Nutribox-style, max 10)
+  //   Suggestions dropdown attaches to document.body to escape
+  //   card's overflow: hidden (same approach as Flatpickr).
   // =========================================================
   function setupIngredientPicker(opts) {
     var wrap = document.getElementById(opts.wrapId);
@@ -315,6 +317,17 @@
     var suggestions = document.getElementById(opts.suggestionsId);
     var counter = document.getElementById(opts.counterId);
     var stateKey = opts.stateKey;
+
+    // Move suggestions out of the card (which clips with overflow: hidden)
+    document.body.appendChild(suggestions);
+
+    function positionSuggestions() {
+      var rect = wrap.getBoundingClientRect();
+      suggestions.style.position = 'fixed';
+      suggestions.style.top = (rect.bottom + 6) + 'px';
+      suggestions.style.left = rect.left + 'px';
+      suggestions.style.width = rect.width + 'px';
+    }
 
     function renderTags() {
       // remove old tags but keep input + suggestions
@@ -356,12 +369,12 @@
       }
       if (matches.length === 0) {
         suggestions.innerHTML = '<div style="padding:14px;text-align:center;color:#74706A;font-size:14px;">Nema rezultata</div>';
-        suggestions.classList.add('open');
-        return;
+      } else {
+        suggestions.innerHTML = matches.map(function(n) {
+          return '<div class="ingredient-suggestion" data-value="' + escapeAttr(n) + '">' + escapeHtml(n) + '</div>';
+        }).join('');
       }
-      suggestions.innerHTML = matches.map(function(n) {
-        return '<div class="ingredient-suggestion" data-value="' + escapeAttr(n) + '">' + escapeHtml(n) + '</div>';
-      }).join('');
+      positionSuggestions();
       suggestions.classList.add('open');
     }
 
@@ -407,8 +420,18 @@
       if (e.target === wrap) input.focus();
     });
 
+    // Close dropdown when clicking outside (both wrap AND suggestions, since
+    // suggestions is now in body, not inside wrap)
     document.addEventListener('click', function(e) {
-      if (!wrap.contains(e.target)) hideSuggestions();
+      if (!wrap.contains(e.target) && !suggestions.contains(e.target)) hideSuggestions();
+    });
+
+    // Reposition on scroll or window resize while open
+    window.addEventListener('scroll', function() {
+      if (suggestions.classList.contains('open')) positionSuggestions();
+    }, true);
+    window.addEventListener('resize', function() {
+      if (suggestions.classList.contains('open')) positionSuggestions();
     });
 
     renderTags();
@@ -492,12 +515,14 @@
 
   function showStep(n, animateDir) {
     // Cancel any pending auto-next from a previous radio/likert click
-    // (prevents race: user picks radio, immediately clicks Dalje,
-    //  then 250ms later auto-next would fire validateStep on the NEW step)
     if (autoNextTimer) {
       clearTimeout(autoNextTimer);
       autoNextTimer = null;
     }
+    // Close any open ingredient dropdowns (they live in body, not in card)
+    document.querySelectorAll('.ingredient-suggestions.open').forEach(function(s) {
+      s.classList.remove('open');
+    });
     // Suppress all validators during transition
     stepInTransition = true;
 
