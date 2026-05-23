@@ -874,7 +874,7 @@
     function validateName() {
       var v = nameIn.value.trim();
       if (!v) { setError('fullName', 'Ime i prezime su obavezni.'); return false; }
-      if (!isValidName(v)) { setError('fullName', 'Unesi i ime i prezime (razdvojene razmakom).'); return false; }
+      if (!isValidName(v)) { setError('fullName', 'Unesi i ime i prezime.'); return false; }
       setError('fullName', null); return true;
     }
 
