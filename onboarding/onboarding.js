@@ -289,6 +289,10 @@
     if (phoneIn.closest('.field').classList.contains('error')) validatePhone();
   });
 
+  phoneIn.addEventListener('blur', function() {
+    validatePhone();
+  });
+
   // =========================================================
   //   INGREDIENT PICKER (Nutribox-style, max 10)
   // =========================================================
@@ -616,15 +620,20 @@
   function validateDate(fieldName, opts) {
     opts = opts || {};
     var el = document.getElementById(fieldName);
-    var v = el.value;
+    var v = (el.value || '').trim();
     if (!v) { setError(fieldName, 'Datum je obavezan.'); return false; }
-    var d = new Date(v);
+    // Parse ISO YYYY-MM-DD as LOCAL date (no timezone shift)
+    var parts = v.split('-');
+    if (parts.length !== 3) { setError(fieldName, 'Datum nije validan.'); return false; }
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
     if (isNaN(d.getTime())) { setError(fieldName, 'Datum nije validan.'); return false; }
     if (opts.minDate) {
-      if (d < opts.minDate) { setError(fieldName, opts.minMsg || 'Datum je suviše rano.'); return false; }
+      var minDay = new Date(opts.minDate.getFullYear(), opts.minDate.getMonth(), opts.minDate.getDate());
+      if (d < minDay) { setError(fieldName, opts.minMsg || 'Datum je suviše rano.'); return false; }
     }
     if (opts.maxDate) {
-      if (d > opts.maxDate) { setError(fieldName, opts.maxMsg || 'Datum je suviše kasno.'); return false; }
+      var maxDay = new Date(opts.maxDate.getFullYear(), opts.maxDate.getMonth(), opts.maxDate.getDate());
+      if (d > maxDay) { setError(fieldName, opts.maxMsg || 'Datum je suviše kasno.'); return false; }
     }
     setError(fieldName, null); return true;
   }
@@ -726,21 +735,26 @@
   }
 
   // =========================================================
-  //   LIVE VALIDATION — clear error as user types valid input
+  //   LIVE VALIDATION - touched-state pattern (kao u prvoj formi)
   // =========================================================
   function bindLive(fieldId, validatorFn, eventName) {
     var el = document.getElementById(fieldId);
     if (!el) return;
+    // input/change - re-validate if error already shown
     el.addEventListener(eventName || 'input', function() {
       if (el.closest('.field').classList.contains('error')) {
         validatorFn();
       }
     });
+    // blur - validate always (touched-state)
+    el.addEventListener('blur', function() {
+      validatorFn();
+    });
   }
 
   bindLive('fullName', validateName);
   bindLive('email', validateEmail);
-  // phone — već wired u sekciji iznad
+  // phone - već wired u sekciji iznad
   bindLive('zaposlenje', function() { return validateRequiredText('zaposlenje'); });
   bindLive('mesto', function() { return validateRequiredText('mesto'); });
   bindLive('brojClanova', function() { return validateNumber('brojClanova', { optional: true, min: 1, max: 30 }); });
@@ -830,12 +844,14 @@
         var c = findCountry(snapshot.country);
         if (c) setCountry(c);
       }
-      // Sync datepickers with restored hidden input values
-      if (typeof datepickerRodjenja !== 'undefined' && datepickerRodjenja && snapshot.inputs && snapshot.inputs.datumRodjenja) {
-        datepickerRodjenja.setValue(snapshot.inputs.datumRodjenja);
+      // Sync Flatpickr instances with restored hidden input values
+      if (typeof fpRodjenja !== 'undefined' && fpRodjenja && snapshot.inputs && snapshot.inputs.datumRodjenja) {
+        fpRodjenja.setDate(snapshot.inputs.datumRodjenja, false);
+        document.getElementById('datumRodjenja').value = snapshot.inputs.datumRodjenja;
       }
-      if (typeof datepickerStarta !== 'undefined' && datepickerStarta && snapshot.inputs && snapshot.inputs.datumStarta) {
-        datepickerStarta.setValue(snapshot.inputs.datumStarta);
+      if (typeof fpStarta !== 'undefined' && fpStarta && snapshot.inputs && snapshot.inputs.datumStarta) {
+        fpStarta.setDate(snapshot.inputs.datumStarta, false);
+        document.getElementById('datumStarta').value = snapshot.inputs.datumStarta;
       }
       // Re-render ingredient tags
       ['najradijeWrap','neVolisWrap'].forEach(function(wid, idx) {
@@ -998,411 +1014,77 @@
   function escapeAttr(s) { return escapeHtml(s); }
 
   // =========================================================
-  //   INIT
+  //   DATEPICKERS - Flatpickr (sa custom theme stilom)
   // =========================================================
-  // =========================================================
-  //   CUSTOM DATEPICKER
-  // =========================================================
-  var MONTHS_SR = ['Januar', 'Februar', 'Mart', 'April', 'Maj', 'Jun', 'Jul', 'Avgust', 'Septembar', 'Oktobar', 'Novembar', 'Decembar'];
-  var WEEKDAYS_SR = ['Pon', 'Uto', 'Sre', 'Čet', 'Pet', 'Sub', 'Ned'];
+  var fpRodjenja, fpStarta;
 
   function pad2(n) { return n < 10 ? '0' + n : '' + n; }
-  function isoDate(d) {
+  function dateToISO(d) {
     return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate());
   }
-  function formatDateDisplay(d) {
-    return pad2(d.getDate()) + '. ' + MONTHS_SR[d.getMonth()] + ' ' + d.getFullYear() + '.';
-  }
-  function parseDateISO(str) {
-    if (!str) return null;
-    var parts = str.split('-');
-    if (parts.length !== 3) return null;
-    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-    return isNaN(d.getTime()) ? null : d;
-  }
-  function sameDate(a, b) {
-    return a && b && a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
-  }
-  function startOfDay(d) {
-    var nd = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    return nd;
-  }
 
-  function setupDatePicker(opts) {
-    // opts: { container, targetId, placeholder, minDate, maxDate, initialView }
-    var container = opts.container;
-    var targetId = opts.targetId;
-    var hiddenInput = document.getElementById(targetId);
-    var placeholder = opts.placeholder || 'Izaberi datum';
-    var minDate = opts.minDate ? startOfDay(opts.minDate) : null;
-    var maxDate = opts.maxDate ? startOfDay(opts.maxDate) : null;
-    var initialView = opts.initialView || 'days'; // days, months, years
-
-    // State
-    var pickerState = {
-      view: 'days',
-      viewDate: new Date(), // controls which month/year is shown
-      selectedDate: parseDateISO(hiddenInput.value) || null,
-      yearPageStart: 0
-    };
-
-    if (pickerState.selectedDate) {
-      pickerState.viewDate = new Date(pickerState.selectedDate);
-    } else if (initialView === 'years') {
-      // For birth date, start at year picker
-      pickerState.view = 'years';
-    }
-
-    // Build markup
-    container.innerHTML =
-      '<button type="button" class="datepicker-trigger">' +
-        '<svg class="datepicker-trigger-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-          '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line>' +
-        '</svg>' +
-        '<span class="datepicker-trigger-text"></span>' +
-      '</button>' +
-      '<div class="datepicker-popup" hidden>' +
-        '<div class="datepicker-content"></div>' +
-        '<div class="datepicker-footer">' +
-          '<button type="button" class="datepicker-clear">Obriši</button>' +
-          '<button type="button" class="datepicker-close">Zatvori</button>' +
-        '</div>' +
-      '</div>';
-
-    var trigger = container.querySelector('.datepicker-trigger');
-    var triggerText = container.querySelector('.datepicker-trigger-text');
-    var popup = container.querySelector('.datepicker-popup');
-    var content = container.querySelector('.datepicker-content');
-    var clearBtn = container.querySelector('.datepicker-clear');
-    var closeBtn = container.querySelector('.datepicker-close');
-
-    function updateTriggerDisplay() {
-      if (pickerState.selectedDate) {
-        triggerText.textContent = formatDateDisplay(pickerState.selectedDate);
-        triggerText.classList.remove('placeholder');
-        trigger.classList.add('has-value');
+  function onDatepickerChange(hiddenId, errorId) {
+    return function(selectedDates) {
+      var hidden = document.getElementById(hiddenId);
+      if (!hidden) return;
+      if (selectedDates.length) {
+        hidden.value = dateToISO(selectedDates[0]);
+        var fieldEl = hidden.closest('.field');
+        if (fieldEl) fieldEl.classList.remove('error');
+        var errEl = document.getElementById(errorId);
+        if (errEl) errEl.textContent = '';
       } else {
-        triggerText.textContent = placeholder;
-        triggerText.classList.add('placeholder');
-        trigger.classList.remove('has-value');
+        hidden.value = '';
       }
-    }
-
-    function isOutOfRange(d) {
-      if (minDate && d < minDate) return true;
-      if (maxDate && d > maxDate) return true;
-      return false;
-    }
-
-    function isMonthFullyDisabled(year, month) {
-      // Check if any day of this month is selectable
-      var firstDay = new Date(year, month, 1);
-      var lastDay = new Date(year, month + 1, 0);
-      if (maxDate && firstDay > maxDate) return true;
-      if (minDate && lastDay < minDate) return true;
-      return false;
-    }
-
-    function isYearFullyDisabled(year) {
-      var firstDay = new Date(year, 0, 1);
-      var lastDay = new Date(year, 11, 31);
-      if (maxDate && firstDay > maxDate) return true;
-      if (minDate && lastDay < minDate) return true;
-      return false;
-    }
-
-    function renderHeader(titleText, opts) {
-      opts = opts || {};
-      var prevDisabled = opts.prevDisabled ? ' disabled' : '';
-      var nextDisabled = opts.nextDisabled ? ' disabled' : '';
-      return '<div class="datepicker-header">' +
-        '<button type="button" class="datepicker-nav-btn dp-prev"' + prevDisabled + ' aria-label="Prethodno">' +
-          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="10 4 6 8 10 12"></polyline></svg>' +
-        '</button>' +
-        '<button type="button" class="datepicker-title dp-title">' + titleText + '</button>' +
-        '<button type="button" class="datepicker-nav-btn dp-next"' + nextDisabled + ' aria-label="Sledeće">' +
-          '<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 4 10 8 6 12"></polyline></svg>' +
-        '</button>' +
-      '</div>';
-    }
-
-    function renderDaysView() {
-      var y = pickerState.viewDate.getFullYear();
-      var m = pickerState.viewDate.getMonth();
-      var today = startOfDay(new Date());
-
-      // Prev/next month range check
-      var prevMonth = new Date(y, m - 1, 1);
-      var nextMonth = new Date(y, m + 1, 1);
-      var prevDisabled = isMonthFullyDisabled(prevMonth.getFullYear(), prevMonth.getMonth());
-      var nextDisabled = isMonthFullyDisabled(nextMonth.getFullYear(), nextMonth.getMonth());
-
-      var html = renderHeader(MONTHS_SR[m] + ' ' + y, { prevDisabled: prevDisabled, nextDisabled: nextDisabled });
-
-      // Weekdays
-      html += '<div class="datepicker-weekdays">';
-      WEEKDAYS_SR.forEach(function(w) { html += '<span class="datepicker-weekday">' + w + '</span>'; });
-      html += '</div>';
-
-      // Day grid
-      var firstDay = new Date(y, m, 1);
-      var lastDay = new Date(y, m + 1, 0);
-      var startWeekday = (firstDay.getDay() + 6) % 7; // Pon=0, Ned=6
-      var daysInMonth = lastDay.getDate();
-      var prevMonthLastDay = new Date(y, m, 0).getDate();
-
-      html += '<div class="datepicker-grid">';
-      // Previous month leading days
-      for (var i = startWeekday - 1; i >= 0; i--) {
-        var d = prevMonthLastDay - i;
-        var fullDate = new Date(y, m - 1, d);
-        var dis = isOutOfRange(fullDate) ? ' disabled' : '';
-        html += '<button type="button" class="datepicker-day other-month"' + dis +
-          ' data-date="' + isoDate(fullDate) + '">' + d + '</button>';
-      }
-      // Current month days
-      for (var d = 1; d <= daysInMonth; d++) {
-        var fullDate = new Date(y, m, d);
-        var classes = 'datepicker-day';
-        if (sameDate(fullDate, pickerState.selectedDate)) classes += ' selected';
-        if (sameDate(fullDate, today)) classes += ' today';
-        var dis = isOutOfRange(fullDate) ? ' disabled' : '';
-        html += '<button type="button" class="' + classes + '"' + dis +
-          ' data-date="' + isoDate(fullDate) + '">' + d + '</button>';
-      }
-      // Trailing days
-      var totalCells = startWeekday + daysInMonth;
-      var trailing = (7 - (totalCells % 7)) % 7;
-      for (var i = 1; i <= trailing; i++) {
-        var fullDate = new Date(y, m + 1, i);
-        var dis = isOutOfRange(fullDate) ? ' disabled' : '';
-        html += '<button type="button" class="datepicker-day other-month"' + dis +
-          ' data-date="' + isoDate(fullDate) + '">' + i + '</button>';
-      }
-      html += '</div>';
-
-      content.innerHTML = html;
-    }
-
-    function renderMonthsView() {
-      var y = pickerState.viewDate.getFullYear();
-      var prevYear = y - 1;
-      var nextYear = y + 1;
-      var prevDisabled = isYearFullyDisabled(prevYear);
-      var nextDisabled = isYearFullyDisabled(nextYear);
-
-      var html = renderHeader('' + y, { prevDisabled: prevDisabled, nextDisabled: nextDisabled });
-      html += '<div class="datepicker-months">';
-      for (var i = 0; i < 12; i++) {
-        var classes = 'datepicker-month-item';
-        if (pickerState.selectedDate &&
-            pickerState.selectedDate.getFullYear() === y &&
-            pickerState.selectedDate.getMonth() === i) {
-          classes += ' selected';
-        }
-        var dis = isMonthFullyDisabled(y, i) ? ' disabled' : '';
-        html += '<button type="button" class="' + classes + '"' + dis +
-          ' data-month="' + i + '">' + MONTHS_SR[i] + '</button>';
-      }
-      html += '</div>';
-      content.innerHTML = html;
-    }
-
-    function renderYearsView() {
-      // Show 12 years per page
-      var currentYear = pickerState.viewDate.getFullYear();
-      if (pickerState.yearPageStart === 0) {
-        // Center current year
-        pickerState.yearPageStart = currentYear - (currentYear % 12);
-      }
-      var start = pickerState.yearPageStart;
-      var end = start + 11;
-
-      var prevDisabled = false;
-      var nextDisabled = false;
-      if (maxDate && start > maxDate.getFullYear()) prevDisabled = nextDisabled = false;
-      // Optional: limit how far back/forward
-      if (start < 1900) prevDisabled = true;
-      if (end > 2100) nextDisabled = true;
-
-      var html = renderHeader(start + ' - ' + end, { prevDisabled: prevDisabled, nextDisabled: nextDisabled });
-      html += '<div class="datepicker-years">';
-      for (var y = start; y <= end; y++) {
-        var classes = 'datepicker-year-item';
-        if (pickerState.selectedDate && pickerState.selectedDate.getFullYear() === y) {
-          classes += ' selected';
-        }
-        var dis = isYearFullyDisabled(y) ? ' disabled' : '';
-        html += '<button type="button" class="' + classes + '"' + dis +
-          ' data-year="' + y + '">' + y + '</button>';
-      }
-      html += '</div>';
-      content.innerHTML = html;
-    }
-
-    function render() {
-      if (pickerState.view === 'days') renderDaysView();
-      else if (pickerState.view === 'months') renderMonthsView();
-      else if (pickerState.view === 'years') renderYearsView();
-    }
-
-    function openPopup() {
-      popup.hidden = false;
-      trigger.classList.add('open');
-      // Reset to days view if a date is selected, otherwise stay on initial
-      if (pickerState.selectedDate) {
-        pickerState.view = 'days';
-        pickerState.viewDate = new Date(pickerState.selectedDate);
-      } else if (initialView === 'years' && pickerState.view === 'days') {
-        // for birth date with no selection, start at year picker
-        pickerState.view = 'years';
-        pickerState.yearPageStart = (new Date().getFullYear() - 30) - ((new Date().getFullYear() - 30) % 12);
-      }
-      render();
-    }
-
-    function closePopup() {
-      popup.hidden = true;
-      trigger.classList.remove('open');
-    }
-
-    trigger.addEventListener('click', function(e) {
-      e.stopPropagation();
-      if (popup.hidden) openPopup();
-      else closePopup();
-    });
-
-    // Delegated click handler within content
-    content.addEventListener('click', function(e) {
-      var dayBtn = e.target.closest('.datepicker-day');
-      var monthBtn = e.target.closest('.datepicker-month-item');
-      var yearBtn = e.target.closest('.datepicker-year-item');
-      var titleBtn = e.target.closest('.dp-title');
-      var prevBtn = e.target.closest('.dp-prev');
-      var nextBtn = e.target.closest('.dp-next');
-
-      if (dayBtn && !dayBtn.disabled) {
-        var dateStr = dayBtn.dataset.date;
-        var parts = dateStr.split('-');
-        pickerState.selectedDate = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
-        hiddenInput.value = dateStr;
-        updateTriggerDisplay();
-        // Clear error if any
-        var fieldEl = container.closest('.field');
-        if (fieldEl) {
-          fieldEl.classList.remove('error');
-          var errEl = fieldEl.querySelector('.error-msg');
-          if (errEl) errEl.textContent = '';
-        }
-        saveState();
-        closePopup();
-      } else if (monthBtn && !monthBtn.disabled) {
-        var mi = parseInt(monthBtn.dataset.month, 10);
-        pickerState.viewDate = new Date(pickerState.viewDate.getFullYear(), mi, 1);
-        pickerState.view = 'days';
-        render();
-      } else if (yearBtn && !yearBtn.disabled) {
-        var yi = parseInt(yearBtn.dataset.year, 10);
-        pickerState.viewDate = new Date(yi, pickerState.viewDate.getMonth(), 1);
-        pickerState.view = 'months';
-        render();
-      } else if (titleBtn) {
-        if (pickerState.view === 'days') {
-          pickerState.view = 'months';
-        } else if (pickerState.view === 'months') {
-          pickerState.view = 'years';
-          pickerState.yearPageStart = pickerState.viewDate.getFullYear() - (pickerState.viewDate.getFullYear() % 12);
-        }
-        render();
-      } else if (prevBtn && !prevBtn.disabled) {
-        if (pickerState.view === 'days') {
-          pickerState.viewDate = new Date(pickerState.viewDate.getFullYear(), pickerState.viewDate.getMonth() - 1, 1);
-        } else if (pickerState.view === 'months') {
-          pickerState.viewDate = new Date(pickerState.viewDate.getFullYear() - 1, pickerState.viewDate.getMonth(), 1);
-        } else {
-          pickerState.yearPageStart -= 12;
-        }
-        render();
-      } else if (nextBtn && !nextBtn.disabled) {
-        if (pickerState.view === 'days') {
-          pickerState.viewDate = new Date(pickerState.viewDate.getFullYear(), pickerState.viewDate.getMonth() + 1, 1);
-        } else if (pickerState.view === 'months') {
-          pickerState.viewDate = new Date(pickerState.viewDate.getFullYear() + 1, pickerState.viewDate.getMonth(), 1);
-        } else {
-          pickerState.yearPageStart += 12;
-        }
-        render();
-      }
-    });
-
-    clearBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      pickerState.selectedDate = null;
-      hiddenInput.value = '';
-      updateTriggerDisplay();
       saveState();
-      closePopup();
-    });
-
-    closeBtn.addEventListener('click', function(e) {
-      e.stopPropagation();
-      closePopup();
-    });
-
-    // Click outside closes
-    document.addEventListener('click', function(e) {
-      if (!container.contains(e.target)) closePopup();
-    });
-
-    // Initial render
-    updateTriggerDisplay();
-
-    return {
-      setValue: function(isoStr) {
-        var d = parseDateISO(isoStr);
-        if (d) {
-          pickerState.selectedDate = d;
-          pickerState.viewDate = new Date(d);
-          hiddenInput.value = isoStr;
-        } else {
-          pickerState.selectedDate = null;
-          hiddenInput.value = '';
-        }
-        updateTriggerDisplay();
-      }
     };
   }
 
-  // Initialize datepickers
-  var datepickerRodjenja, datepickerStarta;
   (function initDatepickers() {
-    var minStart = new Date();
-    minStart.setDate(minStart.getDate() + 5);
-    var maxStart = new Date();
-    maxStart.setMonth(maxStart.getMonth() + 6);
+    if (typeof flatpickr === 'undefined') {
+      console.warn('Flatpickr nije učitan');
+      return;
+    }
+    var rodjenjaDisplay = document.getElementById('datumRodjenjaDisplay');
+    var startaDisplay = document.getElementById('datumStartaDisplay');
 
-    var rodjenjaContainer = document.querySelector('.datepicker[data-target="datumRodjenja"]');
-    var startaContainer = document.querySelector('.datepicker[data-target="datumStarta"]');
-
-    if (rodjenjaContainer) {
-      datepickerRodjenja = setupDatePicker({
-        container: rodjenjaContainer,
-        targetId: 'datumRodjenja',
-        placeholder: rodjenjaContainer.dataset.placeholder || 'Izaberi datum',
-        maxDate: new Date(),
-        initialView: 'years'
+    if (rodjenjaDisplay) {
+      fpRodjenja = flatpickr(rodjenjaDisplay, {
+        dateFormat: 'j. F Y.',
+        locale: 'sr',
+        maxDate: 'today',
+        monthSelectorType: 'dropdown',
+        disableMobile: true,
+        appendTo: document.body,
+        onChange: onDatepickerChange('datumRodjenja', 'datumRodjenjaError'),
+        onReady: function() {
+          // Default view: ~30 godina unazad (lakše za godinu rođenja)
+          var defaultYear = new Date().getFullYear() - 30;
+          if (this.currentYear !== defaultYear && !this.selectedDates.length) {
+            this.changeYear(defaultYear);
+          }
+        }
       });
     }
-    if (startaContainer) {
-      datepickerStarta = setupDatePicker({
-        container: startaContainer,
-        targetId: 'datumStarta',
-        placeholder: startaContainer.dataset.placeholder || 'Izaberi datum',
+
+    if (startaDisplay) {
+      var minStart = new Date();
+      minStart.setDate(minStart.getDate() + 5);
+      var maxStart = new Date();
+      maxStart.setMonth(maxStart.getMonth() + 6);
+      fpStarta = flatpickr(startaDisplay, {
+        dateFormat: 'j. F Y.',
+        locale: 'sr',
         minDate: minStart,
-        maxDate: maxStart
+        maxDate: maxStart,
+        monthSelectorType: 'dropdown',
+        disableMobile: true,
+        appendTo: document.body,
+        onChange: onDatepickerChange('datumStarta', 'datumStartaError')
       });
     }
   })();
+
 
   // Save state on any input change
   form.addEventListener('input', function() {
