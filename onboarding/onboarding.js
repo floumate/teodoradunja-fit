@@ -45,68 +45,226 @@
   ];
 
   // =========================================================
-  //   NAMIRNICE - proširena baza ~200 stavki
+  //   NAMIRNICE - proširena baza ~450 stavki
   // =========================================================
   var NAMIRNICE = [
-    // Meso
-    "Piletina (belo meso)", "Piletina (batak)", "Ćuretina (belo meso)", "Ćuretina (batak)",
-    "Junetina", "Govedina (mleveno)", "Govedina (biftek)", "Svinjetina", "Svinjski kare",
-    "Jagnjetina", "Divljač", "Pačetina", "Zečetina",
-    "Ćufte", "Ćevapi", "Šnicla (panirana)", "Roštilj meso", "Suvo meso", "Šunka", "Pršuta", "Salama", "Pileći nareski",
-    // Riba
-    "Losos", "Orada", "Brancin", "Tuna (sveža)", "Tunjevina (konzerva)", "Skuša",
-    "Sardine (konzerva)", "Sleđ", "Pastrmka", "Šaran", "Som", "Smuđ", "Oslić", "Bakalar",
-    "Gambori / škampi", "Morski plodovi (mešano)", "Hobotnica", "Lignje", "Dagnje", "Kamenice",
-    // Povrće
-    "Spanać", "Brokoli", "Karfiol", "Tikvica", "Paprika", "Patlidžan", "Paradajz",
-    "Krastavac", "Cvekla", "Šargarepa", "Kelj", "Prokelj", "Blitva", "Boranija", "Bundeva",
-    "Kupus", "Kiseli kupus", "Rukola", "Zelena salata", "Radič", "Endivija", "Masline",
-    "Artičoke", "Špargla", "Pečurke", "Šampinjoni", "Vrganji", "Avokado",
-    "Praziluk", "Beli luk", "Crveni luk", "Mladi luk", "Vlašac", "Ren",
-    "Đumbir", "Celer", "Peršun", "Mirođija", "Bosiljak", "Origano", "Ruzmarin",
-    // Ugljeni hidrati
-    "Beli pirinač", "Integralni pirinač", "Crni pirinač", "Kinoa", "Bulgur", "Kuskus",
-    "Ovsena kaša", "Heljda", "Proso", "Batat", "Krompir", "Palenta",
-    "Pasta (bela)", "Integralna pasta", "Bezglutenska pasta", "Spageti", "Njoke",
-    "Hleb (beli)", "Hleb (crni)", "Integralni hleb", "Bezglutenski hleb", "Tost",
-    "Wrap / tortilja", "Proja", "Pirinčane galete", "Krekeri", "Pita kora", "Lepinja",
-    "Pasulj", "Sočivo", "Crveni pasulj", "Leblebije", "Slanutak", "Grašak", "Soja zrno",
-    // Mlečni i jaja
-    "Jaja (cela)", "Belanca", "Žumanca", "Omlet",
-    "Mleko (kravlje)", "Mleko (kozje)", "Bez laktoze mleko", "Pavlaka", "Slatka pavlaka", "Mileram",
-    "Jogurt (beli)", "Voćni jogurt", "Grčki jogurt", "Kefir", "Kiselo mleko",
-    "Sir (mladi)", "Sir (tvrdi)", "Kačkavalj", "Feta", "Mocarela", "Trapist", "Parmezan",
-    "Skuta", "Urda", "Krem sir", "Puter", "Maslac",
-    "Kokosovo mleko", "Bademovo mleko", "Sojino mleko", "Ovseno mleko", "Pirinčano mleko",
-    // Voće
-    "Banana", "Jabuka", "Kruška", "Bobičasto voće", "Borovnice", "Maline", "Kupine", "Jagode",
-    "Grožđe", "Kivi", "Narandža", "Mandarina", "Limun", "Grejpfrut",
-    "Mango", "Ananas", "Lubenica", "Dinja", "Breskva", "Nektarina", "Kajsija",
-    "Šljiva", "Trešnja", "Višnja", "Smokva", "Kaki", "Nar", "Papaja",
-    "Suvo grožđe", "Suve šljive", "Suve smokve", "Datule", "Suve kajsije", "Brusnice (suve)",
-    // Orasi i semenke
-    "Orasi", "Bademi", "Kikiriki", "Puter od kikirikija", "Puter od badema", "Tahini",
-    "Lešnici", "Indijski orah", "Pistaći", "Brazilski oraščić", "Pekan", "Pinjoli",
-    "Semenke bundeve", "Semenke suncokreta", "Chia seme", "Lan seme", "Susam", "Konopljino seme",
-    // Proteinski dodaci / vege
-    "Tofu", "Tempeh", "Edamame", "Seitan",
+    // ========== MESO - perad ==========
+    "Piletina (belo meso)", "Piletina (batak)", "Pileća krilca", "Pileći file", "Pileći vrat",
+    "Pileća džigerica", "Pileće srce", "Ćuretina (belo meso)", "Ćuretina (batak)", "Ćureći file",
+    "Ćureća djigerica", "Pačetina", "Pačja džigerica", "Guščetina", "Prepelice", "Fazan",
+    // ========== MESO - govedina/svinjetina/jagnjetina/ostalo ==========
+    "Junetina (mleveno)", "Junetina (steak)", "Junetina (pečenica)", "Junetina (rebra)",
+    "Govedina (mleveno)", "Govedina (biftek)", "Goveđa pečenica", "Goveđi file", "Goveđa juneca",
+    "Teletina", "Teleća pečenica", "Teleće rebro", "Teleći but",
+    "Svinjetina", "Svinjski kare", "Svinjski but", "Svinjska plećka", "Svinjska vratina",
+    "Svinjska rebra", "Svinjska kolenica", "Svinjska džigerica",
+    "Jagnjetina", "Jagnjeća rebra", "Jagnjeći but", "Jagnjeće šnicle",
+    "Divljač", "Srnetina", "Divlja svinja", "Zečetina", "Konjsko meso",
+    // ========== MESO - prerađevine i tradicionalna ==========
+    "Ćufte", "Ćevapi", "Pljeskavica", "Vešalice", "Karađorđeva šnicla", "Mleveno meso (mix)",
+    "Šnicla (panirana)", "Bečka šnicla", "Roštilj meso",
+    "Suvo meso", "Šunka", "Pršuta", "Salama", "Sudžuk", "Kobasice (domaće)",
+    "Slanina", "Čvarci", "Pileći nareski", "Mortadela",
+    "Pašteta", "Pileća pašteta", "Foie gras",
+    // ========== RIBA i morski plodovi ==========
+    "Losos (svež)", "Losos (dimljeni)", "Tuna (sveža)", "Tunjevina (konzerva u ulju)",
+    "Tunjevina (konzerva u sopstvenom soku)",
+    "Orada", "Brancin", "Cipal", "Trlja", "Skuša", "Sardine (sveže)", "Sardine (konzerva)",
+    "Sleđ", "Inćun", "Bakalar", "Oslić", "Polenovka",
+    "Pastrmka (sveža)", "Pastrmka (dimljena)", "Šaran", "Som", "Smuđ", "Štuka", "Karaš",
+    "Gambori / škampi", "Škampi (jumbo)", "Rakovi", "Jastog",
+    "Hobotnica", "Lignje", "Sipa",
+    "Dagnje", "Kamenice", "Školjke", "Vongole", "Morski plodovi (mix)",
+    "Surimi", "Krabi štapići", "Kavijar", "Ikra", "Sushi (mix)",
+    // ========== POVRĆE - lišnato i krstaste ==========
+    "Spanać", "Mladi spanać", "Blitva", "Kelj", "Kelj kovrdžavi", "Raštan",
+    "Brokoli", "Karfiol", "Romanesko", "Prokelj",
+    "Rukola", "Zelena salata", "Iceberg salata", "Romaine salata", "Mizuna", "Pak Choi",
+    "Maslačak", "Radič", "Endivija", "Cikorija",
+    // ========== POVRĆE - korenasto i krtolasto ==========
+    "Krompir (beli)", "Krompir (crveni)", "Krompir (mladi)", "Batat (slatki krompir)",
+    "Šargarepa", "Cvekla", "Cveklin list", "Repa", "Pastrnak", "Peršunov koren",
+    "Ren", "Rotkva", "Rotkvica", "Crna rotkva", "Đumbir (svež)", "Kurkuma (sveža)",
+    "Celer (koren)", "Celer (stabljika)",
+    // ========== POVRĆE - tikve i plodno ==========
+    "Tikvica", "Tikva", "Bundeva", "Hokaido", "Patišon",
+    "Paprika (crvena)", "Paprika (zelena)", "Paprika (žuta)", "Paprika ljuta", "Babura",
+    "Patlidžan", "Paradajz", "Čeri paradajz", "Sušeni paradajz", "Paradajz (konzerva)",
+    "Krastavac", "Kiseli krastavac", "Cornichon krastavčići", "Bamia (okra)",
+    "Avokado",
+    // ========== POVRĆE - mahunarke (sveže) ==========
+    "Boranija (zelena)", "Boranija (žuta)", "Mahune", "Bob (svež)", "Grašak (svež)",
+    "Edamame", "Mladi grašak",
+    // ========== POVRĆE - kupusno ==========
+    "Kupus", "Kupus (mladi)", "Kiseli kupus", "Crveni kupus", "Kineski kupus",
+    // ========== POVRĆE - lukovice i začinsko ==========
+    "Beli luk", "Crveni luk", "Mladi luk", "Praziluk", "Šalot", "Vlašac (Schnittlauch)",
+    "Peršun (lišće)", "Mirođija", "Bosiljak (svež)", "Origano (svež)", "Ruzmarin (svež)",
+    "Estragon", "Žalfija (svežna)", "Lovor (svež)", "Timijan", "Majorina",
+    // ========== POVRĆE - pečurke i ostalo ==========
+    "Pečurke (mix)", "Šampinjoni", "Vrganji", "Lisičarke", "Bukovače", "Šitake", "Rujnice",
+    "Tartufi", "Masline (zelene)", "Masline (crne)", "Punjene masline",
+    "Artičoke", "Špargla (bela)", "Špargla (zelena)", "Bambusovi izdanci",
+    // ========== VOĆE - jezgričavo i koštičavo ==========
+    "Jabuka (zlatni delišes)", "Jabuka (idared)", "Jabuka (granny smith)", "Jabuka (gala)",
+    "Kruška (kaluđerka)", "Kruška (viljamovka)", "Kruška (krasanka)",
+    "Dunja", "Mušmula",
+    "Breskva", "Nektarina", "Kajsija",
+    "Šljiva (požegača)", "Šljiva (Stenli)", "Šljiva (čačanska)",
+    "Trešnja", "Višnja", "Crna trešnja",
+    // ========== VOĆE - jagodičasto i sitno ==========
+    "Borovnice", "Maline", "Bele maline", "Kupine", "Jagode", "Šumske jagode",
+    "Ribizla (crvena)", "Ribizla (crna)", "Ogrozd", "Brusnice (sveže)", "Aronija",
+    "Grožđe (belo)", "Grožđe (crno)", "Grožđe (bez koštica)",
+    // ========== VOĆE - citrusi ==========
+    "Narandža", "Krvava narandža", "Mandarina", "Klementina", "Limun", "Limeta",
+    "Grejpfrut", "Pomelo", "Yuzu",
+    // ========== VOĆE - tropsko i egzotično ==========
+    "Banana", "Mini banana", "Kivi (zeleni)", "Kivi (zlatni)",
+    "Mango", "Ananas", "Papaja", "Liči", "Dragon fruit (pitaya)", "Guava",
+    "Karambola", "Maracuja", "Kokos (svež)",
+    // ========== VOĆE - bobičasto velike (lubenica, dinja) i ostalo ==========
+    "Lubenica", "Dinja (žuta)", "Dinja (galija)", "Dinja (medena)",
+    "Smokva (sveža)", "Kaki", "Nar", "Avokado (kao voće)",
+    // ========== VOĆE - suvo ==========
+    "Suvo grožđe", "Suve šljive", "Suve smokve", "Datule", "Suve kajsije",
+    "Brusnice (suve)", "Goji bobice", "Mulberries (dud suvi)", "Suvo voće (mix)",
+    // ========== ŽITARICE i UGLJENI HIDRATI ==========
+    "Beli pirinač", "Basmati pirinač", "Jasmin pirinač", "Integralni pirinač",
+    "Crveni pirinač", "Crni pirinač", "Divlji pirinač", "Sushi pirinač", "Arborio pirinač",
+    "Kinoa (bela)", "Kinoa (crvena)", "Kinoa (crna)", "Bulgur", "Kuskus", "Frikeh", "Farro",
+    "Ovsena kaša", "Ovsene pahuljice (krupne)", "Ovsene pahuljice (sitne)", "Instant ovsena kaša",
+    "Ovsene mekinje", "Heljda", "Heljdine pahuljice", "Proso", "Spelta", "Ječam", "Rž",
+    "Polenta", "Kukuruzno brašno", "Kačamak", "Mamaljiga",
+    // Pasta i rezanci
+    "Pasta (bela)", "Integralna pasta", "Bezglutenska pasta", "Pasta od leblebija",
+    "Pasta od graška", "Pasta od sočiva",
+    "Spageti", "Penne", "Fusilli", "Rigatoni", "Lasagna", "Tagliatelle", "Makarone", "Vermicelli",
+    "Njoke (krompir)", "Ravioli", "Tortelini", "Kineski rezanci", "Soba rezanci", "Udon rezanci",
+    "Pho rezanci",
+    // Hleb i pekarski proizvodi
+    "Hleb (beli)", "Hleb (crni)", "Integralni hleb", "Bezglutenski hleb", "Raženi hleb",
+    "Hleb od spelte", "Hleb od kvinoe", "Sourdough hleb",
+    "Tost hleb", "Sendvič hleb", "Bagueta", "Ćabata", "Foccacia", "Pita lepinja", "Lepinja",
+    "Pogačice", "Đevrek",
+    "Wrap", "Tortilja (kukuruzna)", "Tortilja (pšenična)", "Lavash",
+    "Proja", "Cornbread", "Kora za pitu", "Pasta filo",
+    "Pirinčane galete", "Krekeri (slani)", "Krekeri (integralni)", "Grisini", "Soda krekeri",
+    // ========== MAHUNARKE (suve) ==========
+    "Pasulj (beli)", "Pasulj (crveni)", "Pasulj (crni)", "Pasulj (šareni)", "Pasulj (tetovac)",
+    "Mungo pasulj", "Adzuki pasulj",
+    "Sočivo (crveno)", "Sočivo (zeleno)", "Sočivo (smeđe)", "Sočivo (crno beluga)",
+    "Leblebije", "Slanutak (kuvani)", "Slanutak (pržen)",
+    "Grašak (suvi)", "Bob (suvi)", "Soja zrno", "Lupina",
+    // ========== JAJA i MLEČNI PROIZVODI ==========
+    "Jaja (cela)", "Belanca", "Žumanca", "Omlet", "Kajgana",
+    "Mleko (kravlje 1.5%)", "Mleko (kravlje 2.8%)", "Mleko (kravlje 3.2%)", "Mleko (puno masno)",
+    "Mleko (kozje)", "Mleko (ovčije)", "Mleko (bez laktoze)",
+    "Bademovo mleko", "Sojino mleko", "Ovseno mleko", "Pirinčano mleko", "Kokosovo mleko",
+    "Lešnikovo mleko", "Konopljino mleko",
+    "Pavlaka", "Slatka pavlaka", "Mileram", "Kajmak", "Crème fraîche",
+    "Jogurt (beli)", "Jogurt 1.5%", "Jogurt 2.8%", "Punomasni jogurt", "Voćni jogurt",
+    "Grčki jogurt (beli)", "Grčki jogurt (voćni)", "Skyr", "Probiotic jogurt",
+    "Kefir", "Kiselo mleko", "Buttermilk",
+    "Sir (mladi)", "Sir (zreli)", "Sir (tvrdi)", "Sir (polutvrdi)",
+    "Kačkavalj (mladi)", "Kačkavalj (zreli)", "Kačkavalj dimljeni",
+    "Feta", "Halumi", "Mocarela", "Mocarela (bufala)", "Burrata",
+    "Trapist", "Parmezan", "Pecorino", "Cheddar", "Gouda", "Edam",
+    "Brie", "Camembert", "Roquefort", "Gorgonzola", "Stilton",
+    "Skuta", "Urda", "Mascarpone", "Ricotta", "Cottage cheese", "Krem sir", "Filadelfija sir",
+    "Puter", "Maslac", "Ghee (pročišćeni maslac)",
+    // ========== ORASI, SEMENKE i PUTERI ==========
+    "Orasi", "Bademi (sirovi)", "Bademi (slane)", "Bademi (pohovani)",
+    "Kikiriki (sirov)", "Kikiriki (slan)", "Kikiriki (pržen)",
+    "Lešnici", "Indijski orah (cashew)", "Pistaći", "Brazilski oraščić", "Pekan oraščić",
+    "Pinjoli", "Makadamija",
+    "Puter od kikirikija", "Puter od badema", "Puter od lešnika", "Tahini (od susama)",
+    "Nutella", "Linolada",
+    "Semenke bundeve", "Semenke suncokreta", "Chia seme", "Lan seme (celo)", "Lan seme (mleveno)",
+    "Susam (svetli)", "Susam (tamni)", "Konopljino seme", "Mak",
+    "Granola", "Müsli", "Müsli bez šećera",
+    "Brašno od badema", "Brašno od orasa", "Brašno od lešnika", "Kokosovo brašno",
+    // ========== BILJNI PROTEINI / VEGAN ==========
+    "Tofu (svež)", "Tofu (dimljen)", "Silken tofu",
+    "Tempeh", "Seitan",
+    "Falafel", "Hummus",
     "Proteinski prah (whey)", "Proteinski prah (kazein)", "Proteinski prah (biljni)",
-    "Proteinske pločice", "BCAA", "Kreatin",
-    // Začini i sosevi
-    "Kari", "Cimet", "Korijander", "Čili / ljuta paprika", "Aleva paprika", "Biber", "So",
-    "Senf", "Kečap", "Majonez", "Ajvar", "Pesto",
-    "Soja sos", "Sirće (jabukovo)", "Sirće (balzamiko)", "Maslinovo ulje", "Limunov sok",
-    "Med", "Javorov sirup", "Stevia", "Eritritol", "Šećer (smeđi)",
-    // Pića
-    "Kafa (espresso)", "Instant kafa", "Tursa kafa", "Bele kafe", "Zeleni čaj", "Crni čaj", "Voćni čaj",
-    "Cedevita", "Sok od jabuke", "Sok od narandže", "Smoothie", "Kombuča", "Gazirana voda", "Mineralna voda",
-    // Slatkiši (najčešći)
-    "Tamna čokolada", "Mlečna čokolada", "Plazma keks", "Eurokrem", "Sladoled", "Torta",
-    "Palačinke", "Vafli", "Krofne", "Bombone", "Lokum",
-    // Ulja i masti
-    "Suncokretovo ulje", "Repičino ulje", "Kokosovo ulje", "Avokado ulje",
-    // Ostalo
-    "Hummus", "Tzatziki", "Guacamole", "Salsa", "Kiseli krastavci"
+    "Proteinske pločice", "BCAA", "Kreatin", "L-Carnitin", "Glutamin",
+    // ========== ULJA i MASTI ==========
+    "Maslinovo ulje (extra devičansko)", "Maslinovo ulje (rafinisano)",
+    "Suncokretovo ulje", "Repičino (kolza) ulje", "Kokosovo ulje", "Avokado ulje",
+    "Bundevino ulje", "Susamovo ulje", "Lanovo ulje", "Konopljino ulje", "Orahovo ulje",
+    "Kikiriki ulje", "Kukuruzno ulje",
+    // ========== ZAČINI i SOSEVI ==========
+    "Vegeta", "Začin (mix)", "So (morska)", "So (himalajska)", "So (kuhinjska)",
+    "Biber (crni)", "Biber (beli)", "Biber (zeleni)", "Biber (rozi)",
+    "Aleva paprika (slatka)", "Aleva paprika (dimljena)", "Aleva paprika (ljuta)",
+    "Čili", "Ljuta paprika", "Kajenski biber",
+    "Cimet", "Vanila", "Vanilini ekstrakt", "Karanfilić", "Muskatni orah", "Kardamom",
+    "Šafran", "Anis", "Kim", "Kurkuma (mlevena)", "Đumbir (mleveni)",
+    "Korijander", "Kari (curry)", "Garam masala",
+    "Sušeni peršun", "Sušeni bosiljak", "Sušeni origano", "Sušeni timijan", "Sušeni ruzmarin",
+    "Lovorov list",
+    "Senf (žuti)", "Senf (Dijon)", "Senf (engleski)",
+    "Kečap (klasik)", "Kečap (light)", "Kečap (pikantni)",
+    "Majonez (klasik)", "Majonez (light)", "Vegan majonez", "Aioli",
+    "Ajvar (blag)", "Ajvar (ljut)", "Pinđur", "Lutenica",
+    "Pesto (bosiljak)", "Pesto (rukola)",
+    "Soja sos", "Tamari", "Worchester sos", "BBQ sos", "Sweet chili sos", "Sriracha",
+    "Sirće (vinsko)", "Sirće (jabukovo)", "Sirće (balzamiko)", "Sirće (pirinčano)",
+    "Limunov sok", "Limeta sok",
+    "Tzatziki", "Guacamole", "Salsa", "Cezar dresing", "Ranč dresing",
+    // ========== ZASLAĐIVAČI i BRAŠNA ==========
+    "Med (livadski)", "Med (bagremov)", "Med (suncokretov)", "Med (lipov)", "Med (kestena)",
+    "Javorov sirup (maple)", "Agava sirup", "Datuljev sirup",
+    "Stevia", "Eritritol", "Ksilitol", "Sukraloza",
+    "Šećer (beli)", "Šećer (smeđi)", "Kokosov šećer", "Šećer u prahu",
+    "Brašno (belo, T-400)", "Brašno (T-500)", "Integralno brašno", "Ražano brašno",
+    "Brašno od heljde", "Brašno od kvinoe", "Brašno bezglutensko",
+    "Speltino brašno", "Brašno od leblebija",
+    "Kvasac (svež)", "Kvasac (suvi)", "Pekarski prah", "Soda bikarbona",
+    // ========== PIĆA ==========
+    "Voda (česmovaca)", "Voda (mineralna)", "Voda (gazirana)",
+    "Kafa (espresso)", "Kafa (americano)", "Kafa (latte)", "Kafa (kapučino)",
+    "Turska kafa", "Bela kafa", "Instant kafa", "Kafa bez kofeina",
+    "Čaj (zeleni)", "Čaj (crni)", "Čaj (beli)", "Čaj matcha", "Čaj (rooibos)",
+    "Čaj od kamilice", "Čaj od mente", "Čaj od đumbira", "Čaj od šipka", "Čaj od nane",
+    "Sok od jabuke", "Sok od narandže", "Sok od cvekle", "Multivitaminski sok",
+    "Smoothie (zeleni)", "Smoothie (voćni)", "Smoothie (proteinski)",
+    "Kombuča",
+    "Cedevita", "Energetska pića (Red Bull, Monster)",
+    "Coca Cola", "Cola Zero", "Schweppes", "Pepsi", "Fanta", "Sprite",
+    "Vino (crveno)", "Vino (belo)", "Vino (rose)", "Vino (penušavo)",
+    "Pivo (svetlo)", "Pivo (tamno)", "Pivo (bez alkohola)",
+    "Žestoka pića (rakija, whisky, vodka, gin)", "Likeri",
+    // ========== TRADICIONALNA DOMAĆA JELA ==========
+    "Sarma", "Punjene paprike", "Podvarak", "Đuveč",
+    "Pasulj prebranac", "Pasulj sa kobasicama",
+    "Musaka", "Gibanica", "Burek", "Zeljanica", "Pita sa mesom", "Pita sa sirom",
+    "Karađorđeva", "Čvarci",
+    "Janija", "Pasulj čorba", "Riblja čorba", "Pileća supa", "Goveđa supa",
+    "Knedle", "Sataraš", "Leskovački rošting",
+    // ========== SLATKIŠI ==========
+    "Tamna čokolada (70%)", "Tamna čokolada (85%)", "Mlečna čokolada", "Bela čokolada",
+    "Bajadera", "Griotte", "Najlepše želje",
+    "Plazma keks", "Plazma slatkiš", "Eurokrem", "Linolada",
+    "Sladoled (vanila)", "Sladoled (čokolada)", "Sladoled (jagoda)", "Frozen yogurt",
+    "Torta (čokoladna)", "Torta (voćna)", "Cheesecake", "Tiramisu",
+    "Palačinke", "Vafli", "Krofne", "Bombone (gumeni)", "Bombone (lekarne)", "Lokum",
+    "Pita sa jabukama", "Strudla", "Bundevara", "Sirnica",
+    "Baklava", "Halva", "Tulumbe",
+    "Proteinske kuglice", "Marshmallow", "Karamela", "Smokvenjak",
+    // ========== SLANO U KESI / FAST FOOD ==========
+    "Slane palice", "Slanci (soljonji)", "Smoki", "Čips (slan)", "Čips (paprika)", "Čips (sir)",
+    "Tortilja čips", "Popcorn (slan)", "Popcorn (sirast)",
+    "Pomfrit",
+    "Pizza (Margarita)", "Pizza (sa salamom)", "Pizza (sa pršutom)", "Burito", "Taco",
+    "Quesadilla", "Burger", "Cheeseburger", "Hot dog",
+    "Sendvič", "Tost sendvič", "Pljeskavica u lepinji", "Ćevapi u lepinji",
+    // ========== OSTALO / SUPLEMENTI ==========
+    "Vitamin D", "Vitamin C", "B-complex", "Multivitamini",
+    "Omega-3", "Magnezijum", "Cink", "Železo", "Kalcijum", "Probiotici",
+    "Kolagen"
   ];
   // dedupe za svaki slučaj
   NAMIRNICE = NAMIRNICE.filter(function(v, i, a) { return a.indexOf(v) === i; });
@@ -356,15 +514,25 @@
       input.placeholder = atMax ? 'Maksimum ' + MAX_INGREDIENTS + ' namirnica izabrano' : 'Pretraži namirnice...';
     }
 
+    // Diacritic-insensitive normalize: "Šargarepa" → "sargarepa", "Đumbir" → "dumbir".
+    // Letting users type "S" instead of "Š", "C" instead of "Č"/"Ć", "D" instead of "Đ"
+    // is a major UX win when they don't have a Serbian keyboard.
+    function normalizeText(s) {
+      return (s || '').toString().toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/đ/g, 'd');
+    }
+
     function showSuggestions() {
       if (state[stateKey].length >= MAX_INGREDIENTS) { suggestions.classList.remove('open'); return; }
-      var q = input.value.trim().toLowerCase();
+      var q = normalizeText(input.value.trim());
       var matches;
       if (!q) {
         matches = NAMIRNICE.filter(function(n) { return state[stateKey].indexOf(n) === -1; }).slice(0, 50);
       } else {
         matches = NAMIRNICE.filter(function(n) {
-          return n.toLowerCase().indexOf(q) !== -1 && state[stateKey].indexOf(n) === -1;
+          return normalizeText(n).indexOf(q) !== -1 && state[stateKey].indexOf(n) === -1;
         }).slice(0, 50);
       }
       if (matches.length === 0) {
@@ -467,9 +635,30 @@
         var errEl = document.getElementById(name + 'Error');
         if (errEl) errEl.textContent = '';
         group.closest('.step').querySelector('.step-desc')?.classList?.remove('error');
+
+        // Special case: "Drugo" on kakoSiDosla - show conditional input, skip auto-next
+        var isDrugoKako = (name === 'kakoSiDosla' && input.value === 'drugo');
+        if (name === 'kakoSiDosla') {
+          var drugoWrap = document.getElementById('kakoSiDoslaDrugoWrap');
+          var drugoInput = document.getElementById('kakoSiDoslaDrugo');
+          if (drugoWrap && drugoInput) {
+            if (isDrugoKako) {
+              drugoWrap.hidden = false;
+              setTimeout(function() { drugoInput.focus(); }, 80);
+            } else {
+              drugoWrap.hidden = true;
+              drugoInput.value = '';
+              drugoWrap.classList.remove('error');
+              var dErr = document.getElementById('kakoSiDoslaDrugoError');
+              if (dErr) dErr.textContent = '';
+            }
+          }
+        }
+
         saveState();
 
-        if (autoNext) {
+        // Auto-next: skip when "Drugo" is selected (user must type + click Dalje)
+        if (autoNext && !isDrugoKako) {
           if (autoNextTimer) clearTimeout(autoNextTimer);
           autoNextTimer = setTimeout(function() {
             autoNextTimer = null;
@@ -741,7 +930,18 @@
           validateRequiredText('mesto'),
           validateNumber('brojClanova', { optional: true, min: 1, max: 30 })
         ].every(Boolean);
-      case 4: return validateRadio('kakoSiDosla');
+      case 4:
+        if (!validateRadio('kakoSiDosla')) return false;
+        // If "Drugo" selected, also require the custom input
+        if (state.radioChoices.kakoSiDosla === 'drugo') {
+          var drugoText = (document.getElementById('kakoSiDoslaDrugo').value || '').trim();
+          if (!drugoText) {
+            setError('kakoSiDoslaDrugo', 'Napiši odakle si saznala.');
+            return false;
+          }
+          setError('kakoSiDoslaDrugo', null);
+        }
+        return true;
       case 5:
         return [
           validateNumber('visina', {}),
@@ -831,6 +1031,12 @@
   // phone - već wired u sekciji iznad
   bindLive('zaposlenje', function() { return validateRequiredText('zaposlenje'); });
   bindLive('mesto', function() { return validateRequiredText('mesto'); });
+  bindLive('kakoSiDoslaDrugo', function() {
+    if (state.radioChoices.kakoSiDosla !== 'drugo') { setError('kakoSiDoslaDrugo', null); return true; }
+    var v = (document.getElementById('kakoSiDoslaDrugo').value || '').trim();
+    if (!v) { setError('kakoSiDoslaDrugo', 'Napiši odakle si saznala.'); return false; }
+    setError('kakoSiDoslaDrugo', null); return true;
+  });
   bindLive('brojClanova', function() { return validateNumber('brojClanova', { optional: true, min: 1, max: 30 }); });
   bindLive('visina', function() { return validateNumber('visina', {}); });
   bindLive('tezina', function() { return validateNumber('tezina', {}); });
@@ -869,7 +1075,7 @@
         inputs: {}
       };
       var fields = ['fullName','email','phone','datumRodjenja','zaposlenje','mesto','brojClanova',
-        'visina','tezina','krvnaGrupa','ciljMesec','ciljDugorocno','kgIzgubiti','stoSprecavalo',
+        'kakoSiDoslaDrugo','visina','tezina','krvnaGrupa','ciljMesec','ciljDugorocno','kgIzgubiti','stoSprecavalo',
         'bolestiAlergije','terapija','povrede','porodjaji','opisIshrane','slatkisi',
         'kafaCigareteAlkohol','vezbanje','poslednjiTrening','rekviziti','datumStarta'];
       fields.forEach(function(f) {
@@ -903,6 +1109,11 @@
             opt.closest('.radio-option').classList.add('checked');
           }
         });
+        // If "Drugo" was previously selected on kakoSiDosla, show its input
+        if (state.radioChoices.kakoSiDosla === 'drugo') {
+          var dWrap = document.getElementById('kakoSiDoslaDrugoWrap');
+          if (dWrap) dWrap.hidden = false;
+        }
       }
       // Restore likert
       if (snapshot.likertChoice) {
@@ -981,6 +1192,16 @@
     var phoneRaw = document.getElementById('phone').value.trim();
     var phoneE164 = formatPhoneForSubmit(phoneRaw);
 
+    // Combine "Drugo" with the custom text user typed
+    var kakoSiDoslaValue = state.radioChoices.kakoSiDosla || '';
+    if (kakoSiDoslaValue === 'drugo') {
+      var drugoDetail = (document.getElementById('kakoSiDoslaDrugo').value || '').trim();
+      kakoSiDoslaValue = drugoDetail ? ('Drugo: ' + drugoDetail) : 'Drugo';
+    } else if (kakoSiDoslaValue) {
+      // Capitalize first letter for cleaner doc output
+      kakoSiDoslaValue = kakoSiDoslaValue.charAt(0).toUpperCase() + kakoSiDoslaValue.slice(1);
+    }
+
     var payload = {
       fullName: fullName,
       firstName: firstName,
@@ -994,7 +1215,7 @@
       zaposlenje: document.getElementById('zaposlenje').value.trim(),
       mesto: document.getElementById('mesto').value.trim(),
       broj_clanova: document.getElementById('brojClanova').value.trim(),
-      kako_si_dosla: state.radioChoices.kakoSiDosla || '',
+      kako_si_dosla: kakoSiDoslaValue,
       visina: document.getElementById('visina').value,
       tezina: document.getElementById('tezina').value,
       visina_tezina: document.getElementById('visina').value + 'cm; ' + document.getElementById('tezina').value + 'kg',
