@@ -483,6 +483,15 @@
       .card { padding: 38px 24px 28px; border-radius: 16px; }
       .card__header { margin-bottom: 28px; }
       .dropdown { width: 100%; }
+      /* iOS zoom prevention: inputs must be 16px+ to avoid auto-zoom on focus */
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      select,
+      textarea,
+      .dropdown-search input {
+        font-size: 16px !important;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
