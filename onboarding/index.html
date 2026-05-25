@@ -20,9 +20,9 @@
       --white: #FFFFFF;
       --beige: #F1E0D3;
       --beige-soft: #FAF4EC;
-      --sage: #A8B7A1;
-      --sage-dark: #879685;
-      --sage-tint: rgba(168, 183, 161, 0.12);
+      --sage: #6B8052;
+      --sage-dark: #50633D;
+      --sage-tint: rgba(107, 128, 82, 0.12);
       --text: #2A2825;
       --text-muted: #74706A;
       --border: #ECE3D6;
@@ -33,7 +33,7 @@
       --transition: 180ms ease;
       --shadow-card:
         0 1px 2px rgba(42, 40, 37, 0.04),
-        0 24px 60px -24px rgba(168, 183, 161, 0.28),
+        0 24px 60px -24px rgba(107, 128, 82, 0.28),
         0 8px 20px -8px rgba(241, 224, 211, 0.45);
       --shadow-dropdown: 0 12px 32px -8px rgba(42, 40, 37, 0.18);
     }
@@ -172,7 +172,7 @@
     }
 
     textarea {
-      resize: vertical;
+      resize: none;
       min-height: 100px;
       font-family: inherit;
     }
@@ -725,7 +725,7 @@
       right: 2px !important;
     }
     .numInputWrapper:hover span {
-      background: rgba(168, 183, 161, 0.08) !important;
+      background: rgba(107, 128, 82, 0.08) !important;
     }
     .numInputWrapper span.arrowUp:after {
       border-bottom-color: var(--text-muted) !important;
@@ -927,7 +927,7 @@
       letter-spacing: 0.02em;
       cursor: pointer;
       transition: background var(--transition), transform 80ms ease, box-shadow var(--transition);
-      box-shadow: 0 4px 14px -4px rgba(168, 183, 161, 0.45);
+      box-shadow: 0 4px 14px -4px rgba(107, 128, 82, 0.45);
     }
     .nav-next:hover:not(:disabled) { background: var(--sage-dark); }
     .nav-next:active { transform: translateY(1px); }
@@ -963,7 +963,7 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 22px;
-      box-shadow: 0 8px 24px -8px rgba(168, 183, 161, 0.55);
+      box-shadow: 0 8px 24px -8px rgba(107, 128, 82, 0.55);
     }
     .success-icon svg { width: 28px; height: 28px; }
     .success-state h2 {
@@ -1004,8 +1004,7 @@
 
         <!-- STEP 1: Kontakt -->
         <div class="step active" data-step="1">
-          <h2>Hajde da se upoznamo</h2>
-          <p class="step-desc">Osnovni kontakt podaci.</p>
+          <h2>Osnovni kontakt podaci</h2>
 
           <div class="field" data-field="fullName">
             <label for="fullName">Ime i prezime <span class="required">*</span></label>
@@ -1090,6 +1089,11 @@
             <label class="radio-option"><input type="radio" name="kakoSiDosla" value="preporuka" /><span class="radio-dot"></span><span class="radio-label">Preporuka</span></label>
             <label class="radio-option"><input type="radio" name="kakoSiDosla" value="društvene mreže" /><span class="radio-dot"></span><span class="radio-label">Društvene mreže</span></label>
             <label class="radio-option"><input type="radio" name="kakoSiDosla" value="drugo" /><span class="radio-dot"></span><span class="radio-label">Drugo</span></label>
+          </div>
+          <div class="field conditional-field" id="kakoSiDoslaDrugoWrap" data-field="kakoSiDoslaDrugo" hidden style="margin-top: 18px;">
+            <label for="kakoSiDoslaDrugo">Navedi gde si saznala za mene <span class="required">*</span></label>
+            <input type="text" id="kakoSiDoslaDrugo" name="kakoSiDoslaDrugo" placeholder="npr. Google pretraga, podcast, članak..." />
+            <span class="error-msg" id="kakoSiDoslaDrugoError"></span>
           </div>
           <span class="error-msg" id="kakoSiDoslaError" style="margin-top: 14px;"></span>
         </div>
@@ -1451,7 +1455,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
         </div>
         <h2>Hvala ti!</h2>
-        <p>Tvoji odgovori su uspešno poslati. Javićemo ti se uskoro sa sledećim koracima.</p>
+        <p>Tvoji odgovori su uspešno poslati. Javiću ti se uskoro sa sledećim koracima.</p>
       </div>
 
     </section>
