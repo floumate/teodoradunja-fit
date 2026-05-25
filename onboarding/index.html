@@ -467,12 +467,13 @@
       .likert {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        align-items: center;
-        gap: 12px 10px;
+        gap: 6px 0;
+        align-items: end;
       }
       .likert-anchor {
         max-width: none !important;
-        font-size: 12px;
+        font-size: 11px;
+        line-height: 1.25;
       }
       .likert-anchor.left {
         grid-column: 1;
@@ -487,10 +488,11 @@
       .likert-options {
         grid-column: 1 / -1;
         grid-row: 2;
-        justify-content: space-around;
+        display: flex;
+        justify-content: space-between;
         gap: 4px;
       }
-      .likert-num { width: 42px; height: 42px; font-size: 14px; }
+      .likert-num { width: 42px; height: 42px; font-size: 13px; flex-shrink: 0; }
     }
 
     /* Ingredient picker */
