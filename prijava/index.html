@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Prijavi se za ReShape90 — mentorski program sa Teodorom Dunjom." />
-  <title>Prijava — ReShape90 sa Dunjom</title>
+  <meta name="description" content="Prijavi se za ReShape90 - mentorski program sa Teodorom Dunjom." />
+  <title>Prijava - ReShape90 sa Dunjom</title>
 
   <!-- Fonts: Poppins (kao na teodoradunjafit.com) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -23,10 +23,10 @@
       --beige: #F1E0D3;
       --beige-soft: #FAF4EC;       /* input bg */
       --beige-hover: #F3E8D9;
-      --sage: #A8B7A1;
-      --sage-dark: #879685;
-      --sage-tint: rgba(168, 183, 161, 0.12);
-      --sage-tint-strong: rgba(168, 183, 161, 0.18);
+      --sage: #6B8052;
+      --sage-dark: #50633D;
+      --sage-tint: rgba(107, 128, 82, 0.12);
+      --sage-tint-strong: rgba(107, 128, 82, 0.18);
       --text: #2A2825;
       --text-muted: #74706A;
       --border: #ECE3D6;
@@ -187,7 +187,7 @@
     .error-msg:empty { display: none; }
 
     /* =========================================================
-       PHONE FIELD — country picker + input, vizualno spojeni
+       PHONE FIELD - country picker + input, vizualno spojeni
        ========================================================= */
     .phone-row {
       position: relative;
@@ -457,7 +457,7 @@
       align-items: center;
       justify-content: center;
       margin: 0 auto 22px;
-      box-shadow: 0 8px 24px -8px rgba(168, 183, 161, 0.55);
+      box-shadow: 0 8px 24px -8px rgba(107, 128, 82, 0.55);
     }
     .success-icon svg { width: 28px; height: 28px; }
 
@@ -499,7 +499,6 @@
       <header class="card__header">
         <p class="eyebrow">ReShape90</p>
         <h1 id="form-title">Prijavi se</h1>
-        <p class="lede">Popuni prijavu i javićemo ti se sa sledećim koracima.</p>
       </header>
 
       <form id="optInForm" novalidate autocomplete="on">
@@ -559,7 +558,7 @@
           <span class="error-msg" id="phoneError"></span>
         </div>
 
-        <!-- Honeypot — humans don't see this -->
+        <!-- Honeypot - humans don't see this -->
         <div class="hp" aria-hidden="true">
           <label for="website">Website</label>
           <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
@@ -587,7 +586,7 @@
           </svg>
         </div>
         <h2>Hvala ti!</h2>
-        <p>Prijava je uspešno poslata. Javićemo ti se uskoro sa sledećim koracima.</p>
+        <p>Prijava je uspešno poslata. Javiću ti se uskoro sa sledećim koracima.</p>
       </div>
     </section>
   </main>
@@ -595,7 +594,7 @@
   <script>
   (function () {
     // =========================================================
-    //   CONFIG — postavi pre deploya
+    //   CONFIG - postavi pre deploya
     // =========================================================
     var WEBHOOK_URL = 'https://hook.eu1.make.com/qftdnifi3ttsbe445tu3q1dp1qi1b2hy';
     var REDIRECT_URL = ''; // <-- (opciono) ako želiš redirect na hvala stranicu
@@ -790,7 +789,7 @@
       var v = phoneIn.value.trim();
       if (!v.startsWith('+')) return;
 
-      // libphonenumber parser — najpreciznije
+      // libphonenumber parser - najpreciznije
       try {
         var parsed = libphonenumber.parsePhoneNumberFromString(v);
         if (parsed && parsed.country) {
@@ -838,7 +837,7 @@
       var v = (input || '').trim();
       if (!v) return false;
       if (!window.libphonenumber) {
-        // fallback — bar 6 cifara
+        // fallback - bar 6 cifara
         return v.replace(/\D/g, '').length >= 6;
       }
       try {
@@ -892,7 +891,7 @@
       setError('phone', null); return true;
     }
 
-    // Live validation — error se očisti čim korisnik kuca ispravno
+    // Live validation - error se očisti čim korisnik kuca ispravno
     nameIn.addEventListener('input', function () {
       if (nameIn.closest('.field').classList.contains('error')) validateName();
     });
@@ -915,7 +914,7 @@
     form.addEventListener('submit', function (e) {
       e.preventDefault();
 
-      // Honeypot — bot fills, fake success
+      // Honeypot - bot fills, fake success
       if (document.getElementById('website').value.trim() !== '') {
         showSuccess();
         return;
@@ -978,7 +977,7 @@
         console.log('[OPT-IN] Webhook not configured. Payload:', payload);
       }
 
-      // Optimistic success — webhook fire-and-forget
+      // Optimistic success - webhook fire-and-forget
       setTimeout(function () {
         if (REDIRECT_URL) {
           window.location.href = REDIRECT_URL;
