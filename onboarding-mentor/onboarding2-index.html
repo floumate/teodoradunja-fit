@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Onboarding upitnik za ReShape90 program sa Teodorom Dunjom." />
+  <title>Onboarding upitnik - ReShape90 sa Dunjom</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.11.10/bundle/libphonenumber-js.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/sr.js"></script>
+
+  <style>
+    :root {
+      --white: #FFFFFF;
+      --beige: #F1E0D3;
+      --beige-soft: #FAF4EC;
+      --sage: #6B8052;
+      --sage-dark: #50633D;
+      --sage-tint: rgba(107, 128, 82, 0.12);
+      --text: #2A2825;
+      --text-muted: #74706A;
+      --border: #ECE3D6;
+      --error: #B85450;
+      --error-bg: #FCF3F2;
+      --radius-card: 18px;
+      --radius-input: 12px;
+      --transition: 180ms ease;
+      --shadow-card:
+        0 1px 2px rgba(42, 40, 37, 0.04),
+        0 24px 60px -24px rgba(107, 128, 82, 0.28),
+        0 8px 20px -8px rgba(241, 224, 211, 0.45);
+      --shadow-dropdown: 0 12px 32px -8px rgba(42, 40, 37, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--white);
+      background-image:
+        radial-gradient(ellipse 90% 60% at 0% 0%, var(--beige) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 100% 100%, var(--sage-tint) 0%, transparent 55%);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 32px 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .page { width: 100%; max-width: 580px; }
+
+    .card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 36px 40px 32px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      animation: cardIn 0.55s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Progress bar */
+    .progress-wrap {
+      margin-bottom: 28px;
+    }
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+    }
+    .progress-bar {
+      height: 4px;
+      background: var(--beige-soft);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--beige) 0%, var(--sage) 100%);
+      width: 0;
+      transition: width 0.4s ease;
+      border-radius: 4px;
+    }
+
+    /* Steps */
+    .step {
+      display: none;
+      animation: fadeIn 0.35s ease both;
+    }
+    .step.active { display: block; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateX(8px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .step h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 600;
+      font-size: 24px;
+      line-height: 1.3;
+      letter-spacing: -0.01em;
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+    .step .step-desc {
+      color: var(--text-muted);
+      font-size: 14px;
+      line-height: 1.55;
+      margin: 0 0 24px;
+    }
+
+    .field { margin-bottom: 18px; }
+    .field:last-of-type { margin-bottom: 0; }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .required { color: var(--error); }
+    .optional-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 400;
+      font-style: italic;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    textarea {
+      resize: none;
+      min-height: 100px;
+      font-family: inherit;
+    }
+
+    input::placeholder, textarea::placeholder { color: #C0B8AC; }
+
+    input:hover:not(:focus):not(.error),
+    textarea:hover:not(:focus):not(.error),
+    select:hover:not(:focus):not(.error) { border-color: #DCCEBC; }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+
+    .field.error input,
+    .field.error textarea,
+    .field.error select {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+
+    .error-msg {
+      display: block;
+      font-size: 12.5px;
+      color: var(--error);
+      margin-top: 7px;
+    }
+    .error-msg:empty { display: none; }
+
+    select {
+      cursor: pointer;
+      padding-right: 40px;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8' fill='none'><path d='M1 1.5L6 6.5L11 1.5' stroke='%2374706A' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+    }
+
+    /* Two-column field row */
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .field-row .field {
+      margin-bottom: 0;
+    }
+    @media (max-width: 480px) {
+      .field-row {
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+    }
+
+    /* Phone field */
+    .phone-row {
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+    .phone-row:hover:not(.error):not(:focus-within) { border-color: #DCCEBC; }
+    .phone-row:focus-within {
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+    .field.error .phone-row {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+    .country-trigger {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px 0 14px;
+      height: 50px;
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border);
+      border-radius: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .country-trigger:hover { background: rgba(0, 0, 0, 0.03); }
+    .country-flag {
+      display: inline-block;
+      width: 24px; height: 18px;
+      border-radius: 3px;
+      overflow: hidden;
+      background-color: #E5E7EB;
+    }
+    .country-flag .fi {
+      width: 100%; height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: block;
+    }
+    .country-chevron { width: 10px; height: 6px; color: var(--text-muted); }
+    .phone-input {
+      flex: 1;
+      min-width: 0;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 14px 16px;
+      box-shadow: none !important;
+    }
+    .phone-input:focus {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 320px;
+      max-width: 100%;
+      max-height: 360px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      box-shadow: var(--shadow-dropdown);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .dropdown[hidden] { display: none; }
+    .dropdown-search { padding: 12px; border-bottom: 1px solid var(--border); }
+    .dropdown-search input {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 14px;
+      background: var(--beige-soft);
+      border: 2px solid transparent;
+      border-radius: 8px;
+    }
+    .dropdown-list { flex: 1; overflow-y: auto; padding: 6px 0; }
+    .country-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      transition: background 100ms ease;
+    }
+    .country-item:hover { background: var(--beige-soft); }
+    .country-item.selected {
+      background: var(--sage-tint);
+      color: var(--sage-dark);
+      font-weight: 500;
+    }
+    .country-item-flag { width: 24px; height: 18px; border-radius: 3px; overflow: hidden; }
+    .country-item-flag .fi { width: 100%; height: 100%; background-size: cover; background-position: center; display: block; }
+    .country-item-name { flex: 1; }
+    .country-item-dial { color: var(--text-muted); font-weight: 500; }
+    .country-item.selected .country-item-dial { color: var(--sage-dark); }
+
+    /* Radio buttons - card style */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .radio-group.horizontal {
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+    .radio-group.horizontal .radio-option { flex: 1; min-width: 80px; }
+
+    .radio-option {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 18px;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      user-select: none;
+    }
+    .radio-option:hover { border-color: #DCCEBC; background: #FDFBF7; }
+    .radio-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .radio-dot {
+      display: inline-block;
+      width: 18px; height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--border);
+      background: var(--white);
+      flex-shrink: 0;
+      transition: border-color var(--transition), background var(--transition);
+      position: relative;
+    }
+    .radio-option.checked {
+      border-color: var(--sage);
+      background: var(--sage-tint);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+    .radio-option.checked .radio-dot {
+      border-color: var(--sage);
+      background: var(--sage);
+    }
+    .radio-option.checked .radio-dot::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 6px; height: 6px;
+      background: var(--white);
+      border-radius: 50%;
+    }
+    .radio-option .radio-label {
+      font-size: 15px;
+      font-weight: 400;
+      color: var(--text);
+      flex: 1;
+    }
+    .radio-option.checked .radio-label { font-weight: 500; color: var(--text); }
+
+    /* Likert scale (1-5) */
+    .likert {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: space-between;
+      margin: 8px 0;
+    }
+    .likert-anchor {
+      font-size: 12px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+      max-width: 100px;
+      line-height: 1.3;
+    }
+    .likert-anchor.left { text-align: right; }
+    .likert-options {
+      display: flex;
+      gap: 6px;
+      flex: 1;
+      justify-content: center;
+    }
+    .likert-num {
+      width: 44px; height: 44px;
+      border: 1.5px solid var(--border);
+      border-radius: 50%;
+      background: var(--white);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all var(--transition);
+    }
+    .likert-num:hover { border-color: var(--sage); color: var(--sage-dark); }
+    .likert-num.checked {
+      background: var(--sage);
+      border-color: var(--sage);
+      color: var(--white);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+    @media (max-width: 520px) {
+      .likert {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 6px 0;
+        align-items: end;
+      }
+      .likert-anchor {
+        max-width: none !important;
+        font-size: 11px;
+        line-height: 1.25;
+      }
+      .likert-anchor.left {
+        grid-column: 1;
+        grid-row: 1;
+        text-align: left !important;
+      }
+      .likert-anchor:not(.left) {
+        grid-column: 2;
+        grid-row: 1;
+        text-align: right !important;
+      }
+      .likert-options {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        display: flex;
+        justify-content: space-between;
+        gap: 4px;
+      }
+      .likert-num { width: 42px; height: 42px; font-size: 13px; flex-shrink: 0; }
+    }
+
+    /* Ingredient picker */
+    .ingredient-wrap {
+      position: relative;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      padding: 8px 10px;
+      min-height: 50px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      cursor: text;
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+    .ingredient-wrap:hover:not(.error):not(:focus-within) { border-color: #DCCEBC; }
+    .ingredient-wrap:focus-within {
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+    .field.error .ingredient-wrap {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+    .ingredient-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      background: var(--sage-tint);
+      border: 1px solid var(--sage);
+      color: var(--sage-dark);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .ingredient-tag-remove {
+      cursor: pointer;
+      font-size: 14px;
+      line-height: 1;
+      color: var(--sage-dark);
+      opacity: 0.7;
+      transition: opacity var(--transition);
+    }
+    .ingredient-tag-remove:hover { opacity: 1; }
+    .ingredient-input {
+      flex: 1;
+      min-width: 140px;
+      border: none !important;
+      outline: none !important;
+      background: transparent !important;
+      padding: 8px 6px !important;
+      font-family: inherit;
+      font-size: 14px;
+      box-shadow: none !important;
+    }
+    .ingredient-input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .ingredient-suggestions {
+      display: none;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      box-shadow: var(--shadow-dropdown);
+      max-height: 240px;
+      overflow-y: auto;
+      z-index: 9999;
+    }
+    .ingredient-suggestions.open { display: block; }
+    .ingredient-suggestion {
+      padding: 10px 14px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--text);
+      transition: background 100ms ease;
+    }
+    .ingredient-suggestion:hover { background: var(--beige-soft); }
+    .ingredient-counter {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      text-align: right;
+      font-weight: 500;
+    }
+    .ingredient-counter.full { color: var(--sage-dark); }
+
+    /* =========================================================
+       FIX Z-INDEX: ensure dropdowns appear above nav buttons
+       ========================================================= */
+    .step.active { position: relative; z-index: 2; }
+    .nav-row { position: relative; z-index: 1; }
+
+    /* =========================================================
+       DATEPICKER INPUT (Flatpickr-bound)
+       ========================================================= */
+    .datepicker-input-wrap {
+      position: relative;
+    }
+    .datepicker-display {
+      cursor: pointer;
+      padding-right: 44px !important;
+    }
+    .datepicker-display.flatpickr-input.active {
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+    .field.error .datepicker-display {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+    .datepicker-icon {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      pointer-events: none;
+      color: var(--text-muted);
+      width: 18px;
+      height: 18px;
+      transition: color var(--transition);
+    }
+    .datepicker-input-wrap:hover .datepicker-icon,
+    .datepicker-display.active + .datepicker-icon {
+      color: var(--sage-dark);
+    }
+
+    /* =========================================================
+       FLATPICKR - custom theme override (sage + beige + Poppins)
+       ========================================================= */
+    .flatpickr-calendar {
+      font-family: 'Poppins', sans-serif !important;
+      border: 1px solid var(--border) !important;
+      border-radius: var(--radius-input) !important;
+      box-shadow: var(--shadow-dropdown) !important;
+      padding: 16px 14px !important;
+      background: var(--white) !important;
+      z-index: 9999 !important;
+      width: 340px !important;
+      box-sizing: border-box;
+    }
+    .flatpickr-calendar.arrowTop:before,
+    .flatpickr-calendar.arrowTop:after,
+    .flatpickr-calendar.arrowBottom:before,
+    .flatpickr-calendar.arrowBottom:after {
+      display: none !important;
+    }
+    .flatpickr-months {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 0 0 10px !important;
+      height: auto !important;
+    }
+    .flatpickr-months .flatpickr-month {
+      flex: 1 !important;
+      background: transparent !important;
+      color: var(--text) !important;
+      fill: var(--text) !important;
+      height: auto !important;
+      overflow: visible !important;
+      line-height: 1 !important;
+    }
+    .flatpickr-months .flatpickr-prev-month,
+    .flatpickr-months .flatpickr-next-month {
+      position: static !important;
+      flex-shrink: 0 !important;
+      fill: var(--text-muted) !important;
+      padding: 8px 10px !important;
+      border-radius: 10px !important;
+      transition: background var(--transition), fill var(--transition) !important;
+      height: auto !important;
+      width: auto !important;
+      top: auto !important;
+    }
+    .flatpickr-months .flatpickr-prev-month:hover,
+    .flatpickr-months .flatpickr-next-month:hover {
+      fill: var(--text) !important;
+      background: var(--beige-soft) !important;
+    }
+    .flatpickr-months .flatpickr-prev-month.flatpickr-disabled,
+    .flatpickr-months .flatpickr-next-month.flatpickr-disabled {
+      opacity: 0.3 !important;
+      pointer-events: none;
+    }
+    .flatpickr-months .flatpickr-prev-month svg,
+    .flatpickr-months .flatpickr-next-month svg {
+      width: 12px !important;
+      height: 12px !important;
+    }
+    .flatpickr-current-month {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      padding: 0 !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      gap: 10px !important;
+      height: auto !important;
+      top: 0 !important;
+      left: 0 !important;
+      right: 0 !important;
+      width: 100% !important;
+      position: relative !important;
+      line-height: 1 !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      color: var(--text) !important;
+      border-radius: 8px !important;
+      padding: 6px 10px !important;
+      transition: background var(--transition) !important;
+      background: transparent !important;
+      appearance: none !important;
+      cursor: pointer !important;
+      border: none !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months:hover {
+      background: var(--beige-soft) !important;
+    }
+    .flatpickr-current-month .flatpickr-monthDropdown-months .flatpickr-monthDropdown-month {
+      background: var(--white) !important;
+      color: var(--text) !important;
+    }
+    .flatpickr-current-month .numInputWrapper {
+      width: auto !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      position: relative !important;
+    }
+    .flatpickr-current-month input.cur-year {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 500 !important;
+      color: var(--text) !important;
+      padding: 6px 18px 6px 8px !important;
+      width: 76px !important;
+      background: transparent !important;
+      border: 1.5px solid transparent !important;
+      text-align: center !important;
+      border-radius: 8px !important;
+      transition: background var(--transition), border-color var(--transition) !important;
+      cursor: text !important;
+      line-height: 1 !important;
+      height: auto !important;
+    }
+    .flatpickr-current-month input.cur-year:hover {
+      background: var(--beige-soft) !important;
+    }
+    .flatpickr-current-month input.cur-year:focus {
+      background: var(--white) !important;
+      border-color: var(--sage) !important;
+      outline: none !important;
+      box-shadow: 0 0 0 3px var(--sage-tint) !important;
+    }
+    .numInputWrapper span {
+      border: none !important;
+      background: transparent !important;
+      opacity: 1 !important;
+      right: 2px !important;
+    }
+    .numInputWrapper:hover span {
+      background: rgba(107, 128, 82, 0.08) !important;
+    }
+    .numInputWrapper span.arrowUp:after {
+      border-bottom-color: var(--text-muted) !important;
+    }
+    .numInputWrapper span.arrowDown:after {
+      border-top-color: var(--text-muted) !important;
+    }
+    .numInputWrapper:hover span.arrowUp:after {
+      border-bottom-color: var(--sage-dark) !important;
+    }
+    .numInputWrapper:hover span.arrowDown:after {
+      border-top-color: var(--sage-dark) !important;
+    }
+
+    .flatpickr-innerContainer {
+      display: block !important;
+    }
+    .flatpickr-rContainer {
+      display: block !important;
+      width: 100% !important;
+    }
+    .flatpickr-weekdays {
+      background: transparent !important;
+      margin: 4px 0 !important;
+      height: auto !important;
+      display: block !important;
+    }
+    .flatpickr-weekdaycontainer {
+      width: 100% !important;
+      display: grid !important;
+      grid-template-columns: repeat(7, 1fr) !important;
+      gap: 2px !important;
+    }
+    span.flatpickr-weekday {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 11px !important;
+      font-weight: 500 !important;
+      color: var(--text-muted) !important;
+      letter-spacing: 0.04em !important;
+      text-transform: uppercase !important;
+      background: transparent !important;
+      padding: 8px 0 !important;
+      text-align: center !important;
+      max-width: none !important;
+      flex: none !important;
+      display: block !important;
+      width: 100% !important;
+      cursor: default !important;
+      margin: 0 !important;
+    }
+    .flatpickr-days {
+      padding: 0 !important;
+      width: 100% !important;
+      min-width: 0 !important;
+    }
+    .dayContainer {
+      padding: 0 !important;
+      width: 100% !important;
+      min-width: 0 !important;
+      max-width: none !important;
+      display: grid !important;
+      grid-template-columns: repeat(7, 1fr) !important;
+      gap: 3px !important;
+      justify-content: stretch !important;
+    }
+    .flatpickr-day {
+      font-family: 'Poppins', sans-serif !important;
+      font-size: 13px !important;
+      color: var(--text) !important;
+      border-radius: 50% !important;
+      max-width: none !important;
+      width: 100% !important;
+      aspect-ratio: 1 / 1 !important;
+      height: auto !important;
+      line-height: 1 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 1.5px solid transparent !important;
+      transition: background var(--transition), color var(--transition), border-color var(--transition) !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+    /* Fallback for browsers without aspect-ratio support */
+    @supports not (aspect-ratio: 1 / 1) {
+      .flatpickr-day {
+        aspect-ratio: auto !important;
+        height: 42px !important;
+        padding-bottom: 0 !important;
+      }
+    }
+    .flatpickr-day:hover:not(.selected):not(.flatpickr-disabled) {
+      background: var(--beige-soft) !important;
+      border-color: transparent !important;
+      color: var(--text) !important;
+    }
+    .flatpickr-day.today:not(.selected) {
+      border-color: var(--sage) !important;
+      background: transparent !important;
+      color: var(--sage-dark) !important;
+      font-weight: 600 !important;
+    }
+    .flatpickr-day.selected,
+    .flatpickr-day.selected:hover {
+      background: var(--sage) !important;
+      border-color: var(--sage) !important;
+      color: var(--white) !important;
+      font-weight: 500 !important;
+    }
+    .flatpickr-day.selected:hover {
+      background: var(--sage-dark) !important;
+      border-color: var(--sage-dark) !important;
+    }
+    .flatpickr-day.prevMonthDay,
+    .flatpickr-day.nextMonthDay {
+      color: var(--text-muted) !important;
+      opacity: 0.35 !important;
+    }
+    .flatpickr-day.flatpickr-disabled,
+    .flatpickr-day.flatpickr-disabled:hover {
+      color: #d4d0c8 !important;
+      cursor: not-allowed !important;
+      opacity: 0.5 !important;
+      background: transparent !important;
+    }
+    /* Disabled + today: drop the today circle, treat as plain disabled */
+    .flatpickr-day.today.flatpickr-disabled,
+    .flatpickr-day.today.flatpickr-disabled:hover {
+      border-color: transparent !important;
+      background: transparent !important;
+      color: #d4d0c8 !important;
+      font-weight: normal !important;
+    }
+
+    /* Terms box */
+    .terms-box {
+      background: var(--beige-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      padding: 20px 22px;
+      max-height: 320px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .terms-box h3 {
+      font-family: 'Poppins', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 18px 0 8px;
+      color: var(--text);
+    }
+    .terms-box h3:first-child { margin-top: 0; }
+    .terms-box p { margin: 0 0 10px; }
+    .terms-box a { color: var(--sage-dark); }
+
+    /* Honeypot */
+    .hp {
+      position: absolute;
+      left: -9999px; top: -9999px;
+      width: 1px; height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Nav buttons */
+    .nav-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 28px;
+    }
+    .nav-back {
+      flex: 0 0 auto;
+      padding: 14px 22px;
+      background: var(--white);
+      color: var(--text);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .nav-back:hover { border-color: var(--sage); background: var(--beige-soft); }
+    .nav-next {
+      flex: 1;
+      position: relative;
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      padding: 16px 24px;
+      border-radius: var(--radius-input);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background var(--transition), transform 80ms ease, box-shadow var(--transition);
+      box-shadow: 0 4px 14px -4px rgba(107, 128, 82, 0.45);
+    }
+    .nav-next:hover:not(:disabled) { background: var(--sage-dark); }
+    .nav-next:active { transform: translateY(1px); }
+    .nav-next:disabled { opacity: 0.85; cursor: wait; }
+    .nav-next.loading { color: transparent; }
+    .nav-next.loading::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 18px; height: 18px;
+      margin: -9px 0 0 -9px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Success state */
+    .card.success-mode .progress-wrap,
+    .card.success-mode .step { display: none; }
+    .success-state {
+      text-align: center;
+      padding: 20px 0 8px;
+      animation: fadeIn 0.45s ease both;
+    }
+    .success-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--sage);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      box-shadow: 0 8px 24px -8px rgba(107, 128, 82, 0.55);
+    }
+    .success-icon svg { width: 28px; height: 28px; }
+    .success-state h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 26px;
+      margin: 0 0 10px;
+    }
+    .success-state p {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.55;
+      margin: 0;
+      max-width: 380px;
+      margin-inline: auto;
+    }
+
+    @media (max-width: 520px) {
+      body { padding: 20px 14px; }
+      .card { padding: 28px 22px 24px; border-radius: 16px; }
+      .step h2 { font-size: 21px; }
+      .dropdown { width: 100%; }
+      /* iOS zoom prevention: inputs must be 16px+ to avoid auto-zoom on focus */
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="number"],
+      input[type="date"],
+      select,
+      textarea,
+      .ingredient-input,
+      .dropdown-search input,
+      .datepicker-display {
+        font-size: 16px !important;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card" id="card">
+
+      <div class="progress-wrap">
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+      </div>
+
+      <form id="onboardingForm" novalidate autocomplete="on">
+
+        <!-- STEP 1: Kontakt -->
+        <div class="step active" data-step="1">
+          <h2>Osnovni kontakt podaci</h2>
+
+          <div class="field" data-field="fullName">
+            <label for="fullName">Ime i prezime <span class="required">*</span></label>
+            <input type="text" id="fullName" name="fullName" autocomplete="name" placeholder="Ana Marković" />
+            <span class="error-msg" id="fullNameError"></span>
+          </div>
+
+          <div class="field" data-field="email">
+            <label for="email">E-mail adresa <span class="required">*</span></label>
+            <input type="email" id="email" name="email" autocomplete="email" placeholder="ana@primer.com" inputmode="email" />
+            <span class="error-msg" id="emailError"></span>
+          </div>
+
+          <div class="field" data-field="phone">
+            <label for="phone">Broj telefona <span class="required">*</span></label>
+            <div class="phone-row" id="phoneRow">
+              <button type="button" class="country-trigger" id="countryTrigger" aria-haspopup="listbox">
+                <span class="country-flag" id="countryFlag"></span>
+                <svg class="country-chevron" viewBox="0 0 12 8" fill="none"><path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <input type="tel" class="phone-input" id="phone" name="phone" autocomplete="tel-national" placeholder="60 123 4567" inputmode="tel" />
+              <div class="dropdown" id="countryDropdown" hidden>
+                <div class="dropdown-search"><input type="text" id="countrySearch" placeholder="Pretraži zemlje..." autocomplete="off" /></div>
+                <div class="dropdown-list" id="countryList"></div>
+              </div>
+            </div>
+            <span class="error-msg" id="phoneError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 2: Datum rođenja + Zaposlenje -->
+        <div class="step" data-step="2">
+          <h2>O tebi</h2>
+          <p class="step-desc">Nekoliko osnovnih informacija.</p>
+
+          <div class="field" data-field="datumRodjenja">
+            <label for="datumRodjenjaDisplay">Datum rođenja <span class="required">*</span></label>
+            <div class="datepicker-input-wrap">
+              <input type="text" id="datumRodjenjaDisplay" class="datepicker-display" readonly placeholder="Izaberi datum" />
+              <svg class="datepicker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <input type="hidden" id="datumRodjenja" name="datumRodjenja" />
+            <span class="error-msg" id="datumRodjenjaError"></span>
+          </div>
+
+          <div class="field" data-field="zaposlenje">
+            <label for="zaposlenje">Zaposlenje <span class="required">*</span></label>
+            <input type="text" id="zaposlenje" name="zaposlenje" placeholder="Npr. menadžer, profesor..." />
+            <span class="error-msg" id="zaposlenjeError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 3: Mesto + Br. članova domaćinstva -->
+        <div class="step" data-step="3">
+          <h2>Tvoj svakodnevni kontekst</h2>
+          <p class="step-desc">Pomaže nam da prilagodimo jelovnik.</p>
+
+          <div class="field" data-field="mesto">
+            <label for="mesto">Mesto stanovanja (grad, država) <span class="required">*</span></label>
+            <input type="text" id="mesto" name="mesto" placeholder="Beograd, Srbija" />
+            <span class="error-msg" id="mestoError"></span>
+          </div>
+
+          <div class="field" data-field="brojClanova">
+            <label for="brojClanova">Broj članova domaćinstva <span class="optional-tag">(opciono)</span></label>
+            <input type="number" id="brojClanova" name="brojClanova" placeholder="Npr. 3" min="1" max="20" />
+            <span class="error-msg" id="brojClanovaError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 4: Kako si došla -->
+        <div class="step" data-step="4">
+          <h2>Kako si došla do mene? <span class="required">*</span></h2>
+          <p class="step-desc">Značajno mi je da znam koji kanal mi dovodi kvalitetne klijente.</p>
+
+          <div class="radio-group" data-radio="kakoSiDosla" data-auto-next="true">
+            <label class="radio-option"><input type="radio" name="kakoSiDosla" value="preporuka" /><span class="radio-dot"></span><span class="radio-label">Preporuka</span></label>
+            <label class="radio-option"><input type="radio" name="kakoSiDosla" value="društvene mreže" /><span class="radio-dot"></span><span class="radio-label">Društvene mreže</span></label>
+            <label class="radio-option"><input type="radio" name="kakoSiDosla" value="drugo" /><span class="radio-dot"></span><span class="radio-label">Drugo</span></label>
+          </div>
+          <div class="field conditional-field" id="kakoSiDoslaDrugoWrap" data-field="kakoSiDoslaDrugo" hidden style="margin-top: 18px;">
+            <label for="kakoSiDoslaDrugo">Navedi gde si saznala za mene <span class="required">*</span></label>
+            <input type="text" id="kakoSiDoslaDrugo" name="kakoSiDoslaDrugo" placeholder="npr. Google pretraga, podcast, članak..." />
+            <span class="error-msg" id="kakoSiDoslaDrugoError"></span>
+          </div>
+          <span class="error-msg" id="kakoSiDoslaError" style="margin-top: 14px;"></span>
+        </div>
+
+        <!-- STEP 5: Visina + Težina + Krvna grupa -->
+        <div class="step" data-step="5">
+          <h2>Tvoje telo</h2>
+          <p class="step-desc">Osnovne mere za polazne podatke.</p>
+
+          <div class="field-row">
+            <div class="field" data-field="visina">
+              <label for="visina">Visina (cm) <span class="required">*</span></label>
+              <input type="number" id="visina" name="visina" placeholder="170" inputmode="numeric" />
+              <span class="error-msg" id="visinaError"></span>
+            </div>
+            <div class="field" data-field="tezina">
+              <label for="tezina">Težina (kg) <span class="required">*</span></label>
+              <input type="number" id="tezina" name="tezina" placeholder="70" step="0.1" inputmode="decimal" />
+              <span class="error-msg" id="tezinaError"></span>
+            </div>
+          </div>
+
+          <div class="field" data-field="krvnaGrupa">
+            <label for="krvnaGrupa">Krvna grupa <span class="required">*</span></label>
+            <select id="krvnaGrupa" name="krvnaGrupa">
+              <option value="">Izaberi krvnu grupu...</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="0+">0+</option>
+              <option value="0-">0-</option>
+              <option value="Ne znam">Ne znam</option>
+            </select>
+            <span class="error-msg" id="krvnaGrupaError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 6: Cilj kratkoročno -->
+        <div class="step" data-step="6">
+          <h2>Koji cilj bi volela da ostvariš u prvih mesec dana? <span class="required">*</span></h2>
+          <div class="field" data-field="ciljMesec">
+            <textarea id="ciljMesec" name="ciljMesec" placeholder="Opiši šta želiš da postigneš u prvom mesecu..."></textarea>
+            <span class="error-msg" id="ciljMesecError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 7: Cilj dugoročno -->
+        <div class="step" data-step="7">
+          <h2>Šta bi volela da postigneš uz program dugoročno (3/6/12 meseci)? <span class="required">*</span></h2>
+          <div class="field" data-field="ciljDugorocno">
+            <textarea id="ciljDugorocno" name="ciljDugorocno" placeholder="Tvoja dugoročna vizija..."></textarea>
+            <span class="error-msg" id="ciljDugorocnoError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 8: Koliko kg želiš da izgubiš -->
+        <div class="step" data-step="8">
+          <h2>Koliko kilograma želiš da izgubiš? <span class="required">*</span></h2>
+          <div class="field" data-field="kgIzgubiti">
+            <input type="text" id="kgIzgubiti" name="kgIzgubiti" placeholder="Npr. 10 kg ili 'Ne znam tačno, oko 15ak'" />
+            <span class="error-msg" id="kgIzgubitiError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 9: Šta sprečavalo -->
+        <div class="step" data-step="9">
+          <h2>Šta te je do sada sprečavalo u ostvarenju svojih ciljeva? <span class="required">*</span></h2>
+          <div class="field" data-field="stoSprecavalo">
+            <textarea id="stoSprecavalo" name="stoSprecavalo" placeholder="Iskreno, šta ti je do sada bila prepreka..."></textarea>
+            <span class="error-msg" id="stoSprecavaloError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 10: Zdravstvene -->
+        <div class="step" data-step="10">
+          <h2>Zdravstvene informacije</h2>
+          <p class="step-desc">Bitno mi je za prilagodjavanje plana ishrane i treninga.</p>
+
+          <div class="field" data-field="bolestiAlergije">
+            <label for="bolestiAlergije">Da li boluješ od neke hronične bolesti ili alergije? <span class="required">*</span></label>
+            <textarea id="bolestiAlergije" name="bolestiAlergije" placeholder="Ako ne - napiši 'Ne'. Ako da - opiši šta."></textarea>
+            <span class="error-msg" id="bolestiAlergijeError"></span>
+          </div>
+
+          <div class="field" data-field="terapija">
+            <label for="terapija">Redovna terapija i suplementacija <span class="required">*</span></label>
+            <textarea id="terapija" name="terapija" placeholder="Ako ne uzimaš ništa - napiši 'Ne'."></textarea>
+            <span class="error-msg" id="terapijaError"></span>
+          </div>
+
+          <div class="field" data-field="povrede">
+            <label for="povrede">Istorija povreda, operacija i bolova u telu <span class="required">*</span></label>
+            <textarea id="povrede" name="povrede" placeholder="Ako nema - napiši 'Ne'."></textarea>
+            <span class="error-msg" id="povredeError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 11: Dijastaza -->
+        <div class="step" data-step="11">
+          <h2>Da li imaš dijastazu? <span class="required">*</span></h2>
+          <p class="step-desc">Razdvajanje trbušnih mišića, najčešće posle porođaja.</p>
+
+          <div class="radio-group" data-radio="dijastaza" data-auto-next="true">
+            <label class="radio-option"><input type="radio" name="dijastaza" value="Da" /><span class="radio-dot"></span><span class="radio-label">Da</span></label>
+            <label class="radio-option"><input type="radio" name="dijastaza" value="Ne" /><span class="radio-dot"></span><span class="radio-label">Ne</span></label>
+            <label class="radio-option"><input type="radio" name="dijastaza" value="Nisam sigurna" /><span class="radio-dot"></span><span class="radio-label">Nisam sigurna</span></label>
+          </div>
+          <span class="error-msg" id="dijastazaError" style="margin-top: 14px;"></span>
+        </div>
+
+        <!-- STEP 12: Porodjaji -->
+        <div class="step" data-step="12">
+          <h2>Da li je bilo porođaja i koliko? <span class="required">*</span></h2>
+          <p class="step-desc">Prirodnim putem ili carskim rezom? Kada je bio poslednji porođaj?</p>
+
+          <div class="field" data-field="porodjaji">
+            <textarea id="porodjaji" name="porodjaji" placeholder="Ako nije bilo porodjaja, napiši - NE, a ako ih je bilo, napiši mi - kada, koliko i kojim putem."></textarea>
+            <span class="error-msg" id="porodjajiError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 13: Dojiš -->
+        <div class="step" data-step="13">
+          <h2>Da li trenutno dojiš? <span class="required">*</span></h2>
+
+          <div class="radio-group" data-radio="dojis" data-auto-next="true">
+            <label class="radio-option"><input type="radio" name="dojis" value="Da" /><span class="radio-dot"></span><span class="radio-label">Da</span></label>
+            <label class="radio-option"><input type="radio" name="dojis" value="Ne" /><span class="radio-dot"></span><span class="radio-label">Ne</span></label>
+          </div>
+          <span class="error-msg" id="dojisError" style="margin-top: 14px;"></span>
+        </div>
+
+        <!-- STEP 14: Opis ishrane -->
+        <div class="step" data-step="14">
+          <h2>Kako trenutno izgleda tvoja ishrana? <span class="required">*</span></h2>
+          <p class="step-desc">Opiši mi jedan svoj dan od buđenja do spavanja, sa svim obrocima, kafama i sl. Zanima me šta najčešće doručkuješ, ručaš i večeraš... Koliko obroka imaš u danu?</p>
+
+          <div class="field" data-field="opisIshrane">
+            <textarea id="opisIshrane" name="opisIshrane" placeholder="Detaljno opiši jedan tipičan dan..." style="min-height: 140px;"></textarea>
+            <span class="error-msg" id="opisIshraneError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 15: Najradije jedeš -->
+        <div class="step" data-step="15">
+          <h2>Šta od namirnica najradije jedeš? <span class="optional-tag">(opciono)</span></h2>
+          <p class="step-desc">Izaberi do 10 namirnica koje voliš. Kucaj da pretražiš. Ako nemaš preferenciju, samo nastavi dalje.</p>
+
+          <div class="field" data-field="namirniceNajradije">
+            <div class="ingredient-wrap" id="najradijeWrap">
+              <input type="text" class="ingredient-input" id="najradijeInput" placeholder="Pretraži namirnice..." autocomplete="off" />
+              <div class="ingredient-suggestions" id="najradijeSuggestions"></div>
+            </div>
+            <div class="ingredient-counter" id="najradijeCounter">0 / 10</div>
+            <span class="error-msg" id="namirniceNajradijeError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 16: Ne voliš -->
+        <div class="step" data-step="16">
+          <h2>Šta od namirnica ne voliš da jedeš? <span class="optional-tag">(opciono)</span></h2>
+          <p class="step-desc">Izaberi do 10 namirnica koje ne želiš u jelovniku. Ako nemaš preferenciju, samo nastavi dalje.</p>
+
+          <div class="field" data-field="namirniceNeVolis">
+            <div class="ingredient-wrap" id="neVolisWrap">
+              <input type="text" class="ingredient-input" id="neVolisInput" placeholder="Pretraži namirnice..." autocomplete="off" />
+              <div class="ingredient-suggestions" id="neVolisSuggestions"></div>
+            </div>
+            <div class="ingredient-counter" id="neVolisCounter">0 / 10</div>
+            <span class="error-msg" id="namirniceNeVolisError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 17: Jednostavni obroci -->
+        <div class="step" data-step="17">
+          <h2>Da li ti je bitno da opcije za obroke budu jednostavne i brze za pripremu? <span class="required">*</span></h2>
+
+          <div class="radio-group" data-radio="jednostavni" data-auto-next="true">
+            <label class="radio-option"><input type="radio" name="jednostavni" value="Da" /><span class="radio-dot"></span><span class="radio-label">Da</span></label>
+            <label class="radio-option"><input type="radio" name="jednostavni" value="Ne" /><span class="radio-dot"></span><span class="radio-label">Ne</span></label>
+          </div>
+          <span class="error-msg" id="jednostavniError" style="margin-top: 14px;"></span>
+        </div>
+
+        <!-- STEP 18: Slatkiši -->
+        <div class="step" data-step="18">
+          <h2>Da li jedeš slatkiše i koliko često? <span class="required">*</span></h2>
+          <p class="step-desc">U kojim situacijama najčešće jedeš slatkiše?</p>
+
+          <div class="field" data-field="slatkisi">
+            <textarea id="slatkisi" name="slatkisi" placeholder="Iskreno..."></textarea>
+            <span class="error-msg" id="slatkisiError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 19: Kafa/cigarete/alkohol -->
+        <div class="step" data-step="19">
+          <h2>Da li konzumiraš kafu, cigarete i alkohol? <span class="required">*</span></h2>
+          <p class="step-desc">Koju i koliko, i koliko često?</p>
+
+          <div class="field" data-field="kafaCigareteAlkohol">
+            <textarea id="kafaCigareteAlkohol" name="kafaCigareteAlkohol" placeholder="Npr. 2 kafe dnevno, ne pušim, alkohol vikendom..."></textarea>
+            <span class="error-msg" id="kafaCigareteAlkoholError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 20: Vežbanje -->
+        <div class="step" data-step="20">
+          <h2>Da li vežbaš i koliko često? <span class="required">*</span></h2>
+          <p class="step-desc">Napiši mi šta si sve vežbao/la i koliko dugo, te šta ti je dalo najbolje rezultate.</p>
+
+          <div class="field" data-field="vezbanje">
+            <textarea id="vezbanje" name="vezbanje" placeholder="Tvoja istorija vežbanja..."></textarea>
+            <span class="error-msg" id="vezbanjeError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 21: Poslednji trening -->
+        <div class="step" data-step="21">
+          <h2>Kada je bio poslednji trening? <span class="required">*</span></h2>
+
+          <div class="field" data-field="poslednjiTrening">
+            <input type="text" id="poslednjiTrening" name="poslednjiTrening" placeholder="Npr. pre 2 nedelje, prošle godine, nikad..." />
+            <span class="error-msg" id="poslednjiTreningError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 22: Tip treninga -->
+        <div class="step" data-step="22">
+          <h2>Za koji tip treninga si se opredelio/la? <span class="required">*</span></h2>
+          <p class="step-desc">Ako vežbaš samostalno izaberi opciju.</p>
+
+          <div class="radio-group" data-radio="tipTreninga" data-auto-next="true">
+            <label class="radio-option"><input type="radio" name="tipTreninga" value="Teretana" /><span class="radio-dot"></span><span class="radio-label">Teretana</span></label>
+            <label class="radio-option"><input type="radio" name="tipTreninga" value="Kućna varijanta" /><span class="radio-dot"></span><span class="radio-label">Kućna varijanta</span></label>
+            <label class="radio-option"><input type="radio" name="tipTreninga" value="Vežbam samostalno" /><span class="radio-dot"></span><span class="radio-label">Vežbam samostalno</span></label>
+          </div>
+          <span class="error-msg" id="tipTreningaError" style="margin-top: 14px;"></span>
+        </div>
+
+        <!-- STEP 23: Rekviziti (samo ako Kućna) -->
+        <div class="step" data-step="23">
+          <h2>Sa kojim rekvizitima baratamo? <span class="required">*</span></h2>
+          <p class="step-desc">Pošto si izabrala kućnu varijantu - napiši mi detaljno: ako imaš tegove koje su kilaže (bučice, ploče, girja), ako imaš trake, napiši mi da li su otvorenog ili zatvorenog tipa, jačine i dužine. Možeš da mi pošalješ i slike na WhatsApp ako ti je tako lakše.</p>
+
+          <div class="field" data-field="rekviziti">
+            <textarea id="rekviziti" name="rekviziti" placeholder="Opiši rekvizite koje imaš kod kuće..." style="min-height: 120px;"></textarea>
+            <span class="error-msg" id="rekvizitiError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 24: Spremnost 1-5 -->
+        <div class="step" data-step="24">
+          <h2>Koliko si spremna da se posvetiš programu? <span class="required">*</span></h2>
+          <p class="step-desc">Iskreno - na skali od 1 do 5.</p>
+
+          <div class="likert" data-likert="spremnost" data-auto-next="true">
+            <span class="likert-anchor left">nisam spremna</span>
+            <div class="likert-options">
+              <button type="button" class="likert-num" data-value="1">1</button>
+              <button type="button" class="likert-num" data-value="2">2</button>
+              <button type="button" class="likert-num" data-value="3">3</button>
+              <button type="button" class="likert-num" data-value="4">4</button>
+              <button type="button" class="likert-num" data-value="5">5</button>
+            </div>
+            <span class="likert-anchor">u potpunosti spremna</span>
+          </div>
+          <span class="error-msg" id="spremnostError" style="margin-top: 14px; text-align: center;"></span>
+        </div>
+
+        <!-- STEP 25: Datum starta -->
+        <div class="step" data-step="25">
+          <h2>Željeni datum starta <span class="required">*</span></h2>
+          <p class="step-desc">Imaj u vidu da mi je potrebno između 5-10 dana u zavisnosti od broja prijava, da ti pripremim program i sve što je potrebno za start.</p>
+
+          <div class="field" data-field="datumStarta">
+            <div class="datepicker-input-wrap">
+              <input type="text" id="datumStartaDisplay" class="datepicker-display" readonly placeholder="Izaberi datum starta" />
+              <svg class="datepicker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+            </div>
+            <input type="hidden" id="datumStarta" name="datumStarta" />
+            <span class="error-msg" id="datumStartaError"></span>
+          </div>
+        </div>
+
+        <!-- STEP 26: Uslovi -->
+        <div class="step" data-step="26">
+          <h2>Uslovi ulaska u program <span class="required">*</span></h2>
+
+          <p style="font-weight: 500; font-size: 15px; margin-bottom: 12px;">Da li pristaješ da poštuješ pravila programa, kao i na uslove saradnje? <span class="required">*</span></p>
+
+          <div class="radio-group" data-radio="pristajem" data-auto-next="false">
+            <label class="radio-option"><input type="radio" name="pristajem" value="Da" /><span class="radio-dot"></span><span class="radio-label">Da, pristajem</span></label>
+            <label class="radio-option"><input type="radio" name="pristajem" value="Ne" /><span class="radio-dot"></span><span class="radio-label">Ne pristajem</span></label>
+          </div>
+          <span class="error-msg" id="pristajemError" style="margin-top: 14px;"></span>
+        </div>
+
+        <!-- Honeypot -->
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <!-- Tracking -->
+        <input type="hidden" name="page_url" id="pageUrl" />
+        <input type="hidden" name="referrer" id="referrerInput" />
+        <input type="hidden" name="utm_source" id="utmSource" />
+        <input type="hidden" name="utm_medium" id="utmMedium" />
+        <input type="hidden" name="utm_campaign" id="utmCampaign" />
+        <input type="hidden" name="utm_content" id="utmContent" />
+        <input type="hidden" name="utm_term" id="utmTerm" />
+        <input type="hidden" name="submitted_at" id="submittedAt" />
+
+        <!-- Nav -->
+        <div class="nav-row" id="navRow">
+          <button type="button" class="nav-back" id="backBtn" style="display: none;">Nazad</button>
+          <button type="button" class="nav-next" id="nextBtn">Dalje</button>
+        </div>
+      </form>
+
+      <div class="success-state" id="successState" hidden>
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+        </div>
+        <h2>Hvala ti!</h2>
+        <p>Tvoji odgovori su uspešno poslati. Javiću ti se uskoro sa sledećim koracima.</p>
+      </div>
+
+    </section>
+  </main>
+
+  <script src="onboarding2.js"></script>
+</body>
+</html>
