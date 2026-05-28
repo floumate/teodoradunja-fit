@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prijavi se za ReShape90 - mentorski program sa Teodorom Dunjom." />
+  <title>Prijava - ReShape90 sa Dunjom</title>
+
+  <!-- Fonts: Poppins (kao na teodoradunjafit.com) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Flag icons (SVG zastave za country picker) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+
+  <!-- libphonenumber-js (validacija telefona po zemlji) -->
+  <script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.11.10/bundle/libphonenumber-js.min.js"></script>
+
+  <style>
+    :root {
+      --white: #FFFFFF;
+      --beige: #F1E0D3;
+      --beige-soft: #FAF4EC;       /* input bg */
+      --beige-hover: #F3E8D9;
+      --sage: #6B8052;
+      --sage-dark: #50633D;
+      --sage-tint: rgba(107, 128, 82, 0.12);
+      --sage-tint-strong: rgba(107, 128, 82, 0.18);
+      --text: #2A2825;
+      --text-muted: #74706A;
+      --border: #ECE3D6;
+      --error: #B85450;
+      --error-bg: #FCF3F2;
+      --radius-card: 18px;
+      --radius-input: 12px;
+      --transition: 180ms ease;
+      --shadow-card:
+        0 1px 2px rgba(42, 40, 37, 0.04),
+        0 24px 60px -24px rgba(168, 183, 161, 0.28),
+        0 8px 20px -8px rgba(241, 224, 211, 0.45);
+      --shadow-dropdown: 0 12px 32px -8px rgba(42, 40, 37, 0.18);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: var(--white);
+      background-image:
+        radial-gradient(ellipse 90% 60% at 0% 0%, var(--beige) 0%, transparent 55%),
+        radial-gradient(ellipse 80% 60% at 100% 100%, var(--sage-tint) 0%, transparent 55%);
+      color: var(--text);
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 20px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      line-height: 1.5;
+      font-weight: 400;
+    }
+
+    .page { width: 100%; max-width: 520px; }
+
+    .card {
+      position: relative;
+      background: var(--white);
+      border-radius: var(--radius-card);
+      padding: 52px 44px 40px;
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      animation: cardIn 0.55s cubic-bezier(0.2, 0.7, 0.25, 1) both;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--beige) 0%, var(--sage) 100%);
+    }
+
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .card__header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      text-transform: uppercase;
+      font-size: 11px;
+      letter-spacing: 0.22em;
+      color: var(--sage-dark);
+      font-weight: 500;
+      margin: 0 0 14px;
+    }
+
+    h1 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: clamp(28px, 5vw, 34px);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin: 0 0 14px;
+      color: var(--text);
+    }
+
+    .lede {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.55;
+      margin: 0;
+      max-width: 380px;
+      margin-inline: auto;
+    }
+
+    form { display: block; }
+
+    .field {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .required { color: var(--error); }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"] {
+      width: 100%;
+      padding: 14px 16px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--text);
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder { color: #C0B8AC; font-weight: 400; }
+
+    input:hover:not(:focus):not(.error) { border-color: #DCCEBC; }
+
+    input:focus {
+      outline: none;
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+
+    .field.error input {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+
+    .field.error input:focus {
+      box-shadow: 0 0 0 4px rgba(184, 84, 80, 0.12);
+    }
+
+    .error-msg {
+      display: block;
+      font-size: 12.5px;
+      color: var(--error);
+      margin-top: 7px;
+      font-weight: 400;
+    }
+    .error-msg:empty { display: none; }
+
+    /* =========================================================
+       PHONE FIELD - country picker + input, vizualno spojeni
+       ========================================================= */
+    .phone-row {
+      position: relative;
+      display: flex;
+      align-items: stretch;
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-input);
+      transition: border-color var(--transition), background var(--transition), box-shadow var(--transition);
+    }
+
+    .phone-row:hover:not(.error):not(:focus-within) { border-color: #DCCEBC; }
+
+    .phone-row:focus-within {
+      background: #FDFBF7;
+      border-color: var(--sage);
+      box-shadow: 0 0 0 4px var(--sage-tint);
+    }
+
+    .field.error .phone-row {
+      background: var(--error-bg);
+      border-color: var(--error);
+    }
+    .field.error .phone-row:focus-within {
+      box-shadow: 0 0 0 4px rgba(184, 84, 80, 0.12);
+    }
+
+    .country-trigger {
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0 12px 0 14px;
+      height: 50px;
+      background: transparent;
+      border: none;
+      border-right: 1px solid var(--border);
+      border-radius: 0;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      transition: background var(--transition);
+    }
+
+    .country-trigger:hover { background: rgba(0, 0, 0, 0.03); }
+    .country-trigger:focus { outline: none; }
+
+    .country-flag {
+      display: inline-block;
+      width: 24px;
+      height: 18px;
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+      background-color: #E5E7EB;
+    }
+    .country-flag .fi {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: block;
+    }
+
+    .country-chevron {
+      width: 10px;
+      height: 6px;
+      color: var(--text-muted);
+    }
+
+    .phone-input {
+      flex: 1;
+      min-width: 0;
+      background: transparent !important;
+      border: none !important;
+      border-radius: 0 !important;
+      padding: 15px 16px;
+      box-shadow: none !important;
+    }
+
+    .phone-input:focus {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+    }
+
+    /* Dropdown */
+    .dropdown {
+      position: absolute;
+      top: calc(100% + 6px);
+      left: 0;
+      width: 320px;
+      max-width: 100%;
+      max-height: 360px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-input);
+      box-shadow: var(--shadow-dropdown);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .dropdown[hidden] { display: none; }
+
+    .dropdown-search {
+      padding: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .dropdown-search input {
+      width: 100%;
+      padding: 9px 12px;
+      font-size: 14px;
+      font-family: inherit;
+      color: var(--text);
+      background: var(--beige-soft);
+      border: 2px solid transparent;
+      border-radius: 8px;
+      transition: border-color var(--transition), background var(--transition);
+    }
+    .dropdown-search input:focus {
+      outline: none;
+      background: var(--white);
+      border-color: var(--sage);
+    }
+
+    .dropdown-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 6px 0;
+    }
+
+    .country-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      padding: 10px 14px;
+      background: transparent;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      transition: background 100ms ease;
+    }
+
+    .country-item:hover { background: var(--beige-soft); }
+
+    .country-item.selected {
+      background: var(--sage-tint);
+      color: var(--sage-dark);
+      font-weight: 500;
+    }
+
+    .country-item-flag {
+      width: 24px;
+      height: 18px;
+      border-radius: 3px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .country-item-flag .fi {
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+      display: block;
+    }
+
+    .country-item-name { flex: 1; }
+
+    .country-item-dial {
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+    .country-item.selected .country-item-dial { color: var(--sage-dark); }
+
+    .dropdown-empty {
+      padding: 20px;
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+
+    /* Honeypot */
+    .hp {
+      position: absolute;
+      left: -9999px;
+      top: -9999px;
+      width: 1px; height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    /* Submit button */
+    .submit-btn {
+      width: 100%;
+      position: relative;
+      background: var(--sage);
+      color: var(--white);
+      border: none;
+      padding: 17px 24px;
+      border-radius: var(--radius-input);
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: background var(--transition), transform 80ms ease, box-shadow var(--transition);
+      margin-top: 8px;
+      box-shadow: 0 4px 14px -4px rgba(168, 183, 161, 0.45);
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      background: var(--sage-dark);
+      box-shadow: 0 6px 18px -4px rgba(135, 150, 133, 0.55);
+    }
+    .submit-btn:active { transform: translateY(1px); }
+    .submit-btn:focus-visible { outline: 2px solid var(--sage-dark); outline-offset: 3px; }
+    .submit-btn:disabled { opacity: 0.85; cursor: wait; }
+
+    .submit-btn.loading { color: transparent; }
+    .submit-btn.loading::after {
+      content: '';
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 20px; height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid rgba(255, 255, 255, 0.35);
+      border-top-color: var(--white);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .legal {
+      font-size: 12px;
+      color: var(--text-muted);
+      line-height: 1.55;
+      text-align: center;
+      margin: 18px 0 0;
+    }
+
+    /* Success state */
+    .card.success-mode .card__header { display: none; }
+
+    .success-state {
+      text-align: center;
+      padding: 20px 0 8px;
+      animation: fadeIn 0.45s ease both;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .success-icon {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: var(--sage);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 22px;
+      box-shadow: 0 8px 24px -8px rgba(107, 128, 82, 0.55);
+    }
+    .success-icon svg { width: 28px; height: 28px; }
+
+    .success-state h2 {
+      font-family: 'Poppins', sans-serif;
+      font-weight: 500;
+      font-size: 26px;
+      letter-spacing: -0.01em;
+      margin: 0 0 10px;
+    }
+    .success-state p {
+      color: var(--text-muted);
+      font-size: 14.5px;
+      line-height: 1.55;
+      margin: 0;
+      max-width: 360px;
+      margin-inline: auto;
+    }
+
+    /* Mobile */
+    @media (max-width: 520px) {
+      body { padding: 20px 16px; }
+      .card { padding: 38px 24px 28px; border-radius: 16px; }
+      .card__header { margin-bottom: 28px; }
+      .dropdown { width: 100%; }
+      /* iOS zoom prevention: inputs must be 16px+ to avoid auto-zoom on focus */
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      select,
+      textarea,
+      .dropdown-search input {
+        font-size: 16px !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="card" aria-labelledby="form-title">
+      <header class="card__header">
+        <p class="eyebrow">ReShape90</p>
+        <h1 id="form-title">Prijavi se</h1>
+      </header>
+
+      <form id="optInForm" novalidate autocomplete="on">
+        <div class="field" data-field="fullName">
+          <label for="fullName">Ime i prezime <span class="required">*</span></label>
+          <input
+            type="text"
+            id="fullName"
+            name="fullName"
+            autocomplete="name"
+            placeholder="Ana Marković"
+            spellcheck="false"
+          />
+          <span class="error-msg" id="fullNameError"></span>
+        </div>
+
+        <div class="field" data-field="email">
+          <label for="email">Email adresa <span class="required">*</span></label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            autocomplete="email"
+            placeholder="ana@primer.com"
+            spellcheck="false"
+            inputmode="email"
+          />
+          <span class="error-msg" id="emailError"></span>
+        </div>
+
+        <div class="field" data-field="phone">
+          <label for="phone">Broj telefona <span class="required">*</span></label>
+          <div class="phone-row" id="phoneRow">
+            <button type="button" class="country-trigger" id="countryTrigger" aria-haspopup="listbox" aria-expanded="false" aria-label="Izaberi zemlju">
+              <span class="country-flag" id="countryFlag"></span>
+              <svg class="country-chevron" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M1 1.5L6 6.5L11 1.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+            <input
+              type="tel"
+              class="phone-input"
+              id="phone"
+              name="phone"
+              autocomplete="tel-national"
+              placeholder="60 123 4567"
+              inputmode="tel"
+            />
+
+            <div class="dropdown" id="countryDropdown" hidden>
+              <div class="dropdown-search">
+                <input type="text" id="countrySearch" placeholder="Pretraži zemlje..." autocomplete="off" />
+              </div>
+              <div class="dropdown-list" id="countryList" role="listbox"></div>
+            </div>
+          </div>
+          <span class="error-msg" id="phoneError"></span>
+        </div>
+
+        <!-- Honeypot - humans don't see this -->
+        <div class="hp" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <!-- Hidden tracking -->
+        <input type="hidden" name="page_url" id="pageUrl" />
+        <input type="hidden" name="referrer" id="referrerInput" />
+        <input type="hidden" name="utm_source" id="utmSource" />
+        <input type="hidden" name="utm_medium" id="utmMedium" />
+        <input type="hidden" name="utm_campaign" id="utmCampaign" />
+        <input type="hidden" name="utm_content" id="utmContent" />
+        <input type="hidden" name="utm_term" id="utmTerm" />
+        <input type="hidden" name="submitted_at" id="submittedAt" />
+
+        <button type="submit" class="submit-btn" id="submitBtn">Pošalji prijavu</button>
+
+        <p class="legal">Klikom na „Pošalji prijavu" slažeš se da te kontaktiramo putem date adrese i broja telefona.</p>
+      </form>
+
+      <div class="success-state" id="successState" hidden>
+        <div class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h2>Hvala ti!</h2>
+        <p>Prijava je uspešno poslata. Javiću ti se uskoro sa sledećim koracima.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    // =========================================================
+    //   CONFIG - postavi pre deploya
+    // =========================================================
+    var WEBHOOK_URL = 'https://hook.eu1.make.com/qftdnifi3ttsbe445tu3q1dp1qi1b2hy';
+    var REDIRECT_URL = ''; // <-- (opciono) ako želiš redirect na hvala stranicu
+    // =========================================================
+
+    // Country list (Srbija + Balkan + EU dijaspora + US/AU)
+    var COUNTRIES = [
+      { c: 'RS', n: 'Srbija',              d: '+381' },
+      { c: 'BA', n: 'Bosna i Hercegovina', d: '+387' },
+      { c: 'ME', n: 'Crna Gora',           d: '+382' },
+      { c: 'HR', n: 'Hrvatska',            d: '+385' },
+      { c: 'SI', n: 'Slovenija',           d: '+386' },
+      { c: 'MK', n: 'Severna Makedonija',  d: '+389' },
+      { c: 'AL', n: 'Albanija',            d: '+355' },
+      { c: 'BG', n: 'Bugarska',            d: '+359' },
+      { c: 'RO', n: 'Rumunija',            d: '+40'  },
+      { c: 'HU', n: 'Mađarska',            d: '+36'  },
+      { c: 'AT', n: 'Austrija',            d: '+43'  },
+      { c: 'DE', n: 'Nemačka',             d: '+49'  },
+      { c: 'CH', n: 'Švajcarska',          d: '+41'  },
+      { c: 'IT', n: 'Italija',             d: '+39'  },
+      { c: 'FR', n: 'Francuska',           d: '+33'  },
+      { c: 'NL', n: 'Holandija',           d: '+31'  },
+      { c: 'BE', n: 'Belgija',             d: '+32'  },
+      { c: 'SE', n: 'Švedska',             d: '+46'  },
+      { c: 'NO', n: 'Norveška',            d: '+47'  },
+      { c: 'DK', n: 'Danska',              d: '+45'  },
+      { c: 'GB', n: 'Velika Britanija',    d: '+44'  },
+      { c: 'IE', n: 'Irska',               d: '+353' },
+      { c: 'ES', n: 'Španija',             d: '+34'  },
+      { c: 'PT', n: 'Portugal',            d: '+351' },
+      { c: 'GR', n: 'Grčka',               d: '+30'  },
+      { c: 'US', n: 'SAD',                 d: '+1'   },
+      { c: 'CA', n: 'Kanada',              d: '+1'   },
+      { c: 'AU', n: 'Australija',          d: '+61'  }
+    ];
+
+    function findCountry(code) {
+      if (!code) return null;
+      for (var i = 0; i < COUNTRIES.length; i++) {
+        if (COUNTRIES[i].c === code) return COUNTRIES[i];
+      }
+      return null;
+    }
+
+    function flagHtml(code) {
+      if (!code || code.length !== 2) return '';
+      return '<span class="fi fi-' + code.toLowerCase() + '"></span>';
+    }
+
+    // ---------- Elements ----------
+    var form         = document.getElementById('optInForm');
+    var nameIn       = document.getElementById('fullName');
+    var emailIn      = document.getElementById('email');
+    var phoneIn      = document.getElementById('phone');
+    var phoneRow     = document.getElementById('phoneRow');
+    var submitBtn    = document.getElementById('submitBtn');
+    var successEl    = document.getElementById('successState');
+
+    var nameErr      = document.getElementById('fullNameError');
+    var emailErr     = document.getElementById('emailError');
+    var phoneErr     = document.getElementById('phoneError');
+
+    var trigger      = document.getElementById('countryTrigger');
+    var flagEl       = document.getElementById('countryFlag');
+    var dropdown     = document.getElementById('countryDropdown');
+    var searchEl     = document.getElementById('countrySearch');
+    var listEl       = document.getElementById('countryList');
+
+    var selectedCountry = findCountry('RS'); // fallback dok IP detect ne stigne
+
+    // ---------- Tracking ----------
+    (function populateTracking() {
+      var url = new URL(window.location.href);
+      document.getElementById('pageUrl').value = url.href;
+      document.getElementById('referrerInput').value = document.referrer || '';
+      ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'].forEach(function (k) {
+        var id = k.replace(/_([a-z])/g, function (_, l) { return l.toUpperCase(); });
+        var el = document.getElementById(id);
+        if (el) el.value = url.searchParams.get(k) || '';
+      });
+    })();
+
+    // ---------- Country picker ----------
+    function setCountry(country) {
+      if (!country) return;
+      selectedCountry = country;
+      flagEl.innerHTML = flagHtml(country.c);
+      trigger.title = country.n + ' (' + country.d + ')';
+      var items = listEl.querySelectorAll('.country-item');
+      items.forEach(function (item) {
+        item.classList.toggle('selected', item.dataset.code === country.c);
+      });
+      updatePhonePlaceholder();
+    }
+
+    function updatePhonePlaceholder() {
+      if (!selectedCountry || !window.libphonenumber) return;
+      try {
+        var ex = libphonenumber.getExampleNumber(selectedCountry.c, libphonenumber.examples);
+        if (ex) { phoneIn.placeholder = ex.formatNational(); return; }
+      } catch (e) {}
+      phoneIn.placeholder = '60 123 4567';
+    }
+
+    function renderList(filter) {
+      filter = (filter || '').trim().toLowerCase();
+      var html = '';
+      var matched = 0;
+      for (var i = 0; i < COUNTRIES.length; i++) {
+        var c = COUNTRIES[i];
+        if (filter && c.n.toLowerCase().indexOf(filter) === -1 && c.d.indexOf(filter) === -1) continue;
+        var isSelected = selectedCountry && c.c === selectedCountry.c;
+        html += '<button type="button" class="country-item' + (isSelected ? ' selected' : '') + '" ' +
+                  'data-code="' + c.c + '" data-dial="' + c.d + '" role="option">' +
+                  '<span class="country-item-flag">' + flagHtml(c.c) + '</span>' +
+                  '<span class="country-item-name">' + c.n + '</span>' +
+                  '<span class="country-item-dial">' + c.d + '</span>' +
+                '</button>';
+        matched++;
+      }
+      if (matched === 0) html = '<div class="dropdown-empty">Nema rezultata</div>';
+      listEl.innerHTML = html;
+    }
+
+    function openDropdown() {
+      dropdown.hidden = false;
+      trigger.setAttribute('aria-expanded', 'true');
+      renderList('');
+      searchEl.value = '';
+      setTimeout(function () { searchEl.focus(); }, 50);
+    }
+
+    function closeDropdown() {
+      dropdown.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+    }
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (dropdown.hidden) openDropdown(); else closeDropdown();
+    });
+
+    listEl.addEventListener('click', function (e) {
+      var item = e.target.closest('.country-item');
+      if (!item) return;
+      var c = findCountry(item.dataset.code);
+      if (c) { setCountry(c); closeDropdown(); phoneIn.focus(); }
+    });
+
+    searchEl.addEventListener('input', function () { renderList(searchEl.value); });
+    searchEl.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeDropdown(); trigger.focus(); }
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!trigger.contains(e.target) && !dropdown.contains(e.target)) closeDropdown();
+    });
+
+    // Inicijalna zastava
+    setCountry(selectedCountry);
+
+    // ---------- IP geolocation (3 provider fallback) ----------
+    function detectCountryByIP(callback) {
+      var providers = [
+        { url: 'https://api.country.is/',  field: 'country' },
+        { url: 'https://ipwho.is/',         field: 'country_code' },
+        { url: 'https://ipapi.co/json/',    field: 'country_code' }
+      ];
+      function tryProvider(idx) {
+        if (idx >= providers.length) { callback(null); return; }
+        var p = providers[idx];
+        var ctrl = new AbortController();
+        var timer = setTimeout(function () { ctrl.abort(); }, 3000);
+        fetch(p.url, { signal: ctrl.signal })
+          .then(function (r) { clearTimeout(timer); if (!r.ok) throw new Error(); return r.json(); })
+          .then(function (d) { var code = d && d[p.field]; if (code) callback(code); else throw new Error(); })
+          .catch(function () { tryProvider(idx + 1); });
+      }
+      tryProvider(0);
+    }
+
+    detectCountryByIP(function (code) {
+      if (!code) return;
+      var c = findCountry(code);
+      if (c) setCountry(c);
+      // Ako zemlja nije u listi → Srbija ostaje fallback
+    });
+
+    // ---------- Auto-detect zemlju iz +XXX prefiksa ----------
+    function autoDetectFromDialCode() {
+      var v = phoneIn.value.trim();
+      if (!v.startsWith('+')) return;
+
+      // libphonenumber parser - najpreciznije
+      try {
+        var parsed = libphonenumber.parsePhoneNumberFromString(v);
+        if (parsed && parsed.country) {
+          var c = findCountry(parsed.country);
+          if (c && (!selectedCountry || selectedCountry.c !== c.c)) { setCountry(c); return; }
+        }
+      } catch (e) {}
+
+      // Fallback: direktan match po dial code-u, sortirano od duljih ka kraćim
+      var sorted = COUNTRIES.slice().sort(function (a, b) { return b.d.length - a.d.length; });
+      for (var i = 0; i < sorted.length; i++) {
+        if (v.startsWith(sorted[i].d)) {
+          if (!selectedCountry || selectedCountry.c !== sorted[i].c) setCountry(sorted[i]);
+          return;
+        }
+      }
+    }
+
+    // ---------- Validation ----------
+    function isValidEmail(email) {
+      if (!email || typeof email !== 'string') return false;
+      if (/\s/.test(email)) return false;
+      if ((email.match(/@/g) || []).length !== 1) return false;
+      var parts = email.split('@');
+      var local = parts[0], domain = parts[1];
+      if (!local || local.startsWith('.') || local.endsWith('.') || local.indexOf('..') !== -1) return false;
+      if (!domain || domain.startsWith('.') || domain.endsWith('.') || domain.indexOf('..') !== -1) return false;
+      var dp = domain.split('.');
+      if (dp.length < 2 || dp.some(function (p) { return p.length === 0; })) return false;
+      if (dp[dp.length - 1].length < 2) return false;
+      if (email.length > 254) return false;
+      return true;
+    }
+
+    function isValidName(name) {
+      var t = (name || '').trim().replace(/\s+/g, ' ');
+      if (t.length < 3) return false;
+      if (!/\s/.test(t)) return false;
+      // bar 2 reči, svaka min 2 chara, dozvoljeni latinski + diacritici + apostrof/crtica
+      var re = /^[A-Za-zŠĐČĆŽšđčćžÀ-ÿ'\-]{2,}(\s+[A-Za-zŠĐČĆŽšđčćžÀ-ÿ'\-]{2,})+$/;
+      return re.test(t);
+    }
+
+    function isValidPhone(input) {
+      var v = (input || '').trim();
+      if (!v) return false;
+      if (!window.libphonenumber) {
+        // fallback - bar 6 cifara
+        return v.replace(/\D/g, '').length >= 6;
+      }
+      try {
+        var full = v.startsWith('+') ? v : selectedCountry.d + ' ' + v;
+        return libphonenumber.isValidPhoneNumber(full);
+      } catch (e) { return false; }
+    }
+
+    function formatPhoneForSubmit(input) {
+      var v = (input || '').trim();
+      if (!v) return '';
+      if (!window.libphonenumber) return v;
+      try {
+        var full = v.startsWith('+') ? v : selectedCountry.d + ' ' + v;
+        var parsed = libphonenumber.parsePhoneNumberFromString(full);
+        if (parsed && parsed.isValid()) return parsed.format('E.164'); // +381601234567
+      } catch (e) {}
+      return v;
+    }
+
+    function setError(field, msg) {
+      var fieldEl = document.querySelector('.field[data-field="' + field + '"]');
+      var errEl = document.getElementById(field + 'Error');
+      if (msg) {
+        fieldEl.classList.add('error');
+        errEl.textContent = msg;
+      } else {
+        fieldEl.classList.remove('error');
+        errEl.textContent = '';
+      }
+    }
+
+    function validateName() {
+      var v = nameIn.value.trim();
+      if (!v) { setError('fullName', 'Ime i prezime su obavezni.'); return false; }
+      if (!isValidName(v)) { setError('fullName', 'Unesi i ime i prezime.'); return false; }
+      setError('fullName', null); return true;
+    }
+
+    function validateEmail() {
+      var v = emailIn.value.trim();
+      if (!v) { setError('email', 'Email je obavezan.'); return false; }
+      if (!isValidEmail(v)) { setError('email', 'Email adresa nije validna.'); return false; }
+      setError('email', null); return true;
+    }
+
+    function validatePhone() {
+      var v = phoneIn.value.trim();
+      if (!v) { setError('phone', 'Broj telefona je obavezan.'); return false; }
+      if (!isValidPhone(v)) { setError('phone', 'Broj telefona nije validan za izabranu zemlju.'); return false; }
+      setError('phone', null); return true;
+    }
+
+    // Live validation - error se očisti čim korisnik kuca ispravno
+    nameIn.addEventListener('input', function () {
+      if (nameIn.closest('.field').classList.contains('error')) validateName();
+    });
+    emailIn.addEventListener('input', function () {
+      if (emailIn.closest('.field').classList.contains('error')) validateEmail();
+    });
+    phoneIn.addEventListener('input', function () {
+      // Dozvoljavamo cifre, +, razmake, crtice, zagrade
+      phoneIn.value = phoneIn.value.replace(/[^\d\s\-()+]/g, '');
+      autoDetectFromDialCode();
+      if (phoneIn.closest('.field').classList.contains('error')) validatePhone();
+    });
+
+    // Validate on blur (touched-state)
+    nameIn.addEventListener('blur', validateName);
+    emailIn.addEventListener('blur', validateEmail);
+    phoneIn.addEventListener('blur', validatePhone);
+
+    // ---------- Submit ----------
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      // Honeypot - bot fills, fake success
+      if (document.getElementById('website').value.trim() !== '') {
+        showSuccess();
+        return;
+      }
+
+      var ok = [validateName(), validateEmail(), validatePhone()].every(Boolean);
+      if (!ok) {
+        var firstErr = document.querySelector('.field.error input');
+        if (firstErr) firstErr.focus();
+        return;
+      }
+
+      submitBtn.classList.add('loading');
+      submitBtn.disabled = true;
+
+      document.getElementById('submittedAt').value = new Date().toISOString();
+
+      var fullName = nameIn.value.trim().replace(/\s+/g, ' ');
+      var parts = fullName.split(' ');
+      var firstName = parts[0];
+      var lastName = parts.slice(1).join(' ');
+      var phoneRaw = phoneIn.value.trim();
+      var phoneE164 = formatPhoneForSubmit(phoneRaw);
+
+      var payload = {
+        fullName:           fullName,
+        firstName:          firstName,
+        lastName:           lastName,
+        email:              emailIn.value.trim(),
+        phone:              phoneE164,
+        phone_country:      selectedCountry ? selectedCountry.d : '',
+        phone_country_code: selectedCountry ? selectedCountry.c : '',
+        phone_raw:          phoneRaw,
+        page_url:           document.getElementById('pageUrl').value,
+        referrer:           document.getElementById('referrerInput').value,
+        utm_source:         document.getElementById('utmSource').value,
+        utm_medium:         document.getElementById('utmMedium').value,
+        utm_campaign:       document.getElementById('utmCampaign').value,
+        utm_content:        document.getElementById('utmContent').value,
+        utm_term:           document.getElementById('utmTerm').value,
+        submitted_at:       document.getElementById('submittedAt').value,
+        user_agent:         navigator.userAgent
+      };
+
+      if (WEBHOOK_URL) {
+        try {
+          fetch(WEBHOOK_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            keepalive: true
+          }).catch(function () {});
+        } catch (err) {
+          if (navigator.sendBeacon) {
+            var blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+            navigator.sendBeacon(WEBHOOK_URL, blob);
+          }
+        }
+      } else {
+        console.log('[OPT-IN] Webhook not configured. Payload:', payload);
+      }
+
+      // Optimistic success - webhook fire-and-forget
+      setTimeout(function () {
+        if (REDIRECT_URL) {
+          window.location.href = REDIRECT_URL;
+        } else {
+          showSuccess();
+        }
+      }, 600);
+    });
+
+    function showSuccess() {
+      form.style.display = 'none';
+      document.querySelector('.card').classList.add('success-mode');
+      successEl.hidden = false;
+      successEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  })();
+  </script>
+</body>
+</html>
