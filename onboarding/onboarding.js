@@ -7,7 +7,7 @@
   var TOTAL_STEPS = 26;
   var MAX_INGREDIENTS = 10;
   var AUTO_NEXT_DELAY = 250; // ms
-  var STORAGE_KEY = 'tdfit_onboarding2_v1';
+  var STORAGE_KEY = 'tdfit_onboarding_v1';
   // =========================================================
 
   // =========================================================
@@ -764,11 +764,9 @@
   function goNext() {
     var step = state.currentStep;
     if (!validateStep(step)) return;
-    // Conditional skip: only "Kućna varijanta" needs rekviziti (step 23).
-    // Teretana and Vežbam samostalno both skip to step 24.
-    var skipsRekviziti = (state.radioChoices.tipTreninga === 'Teretana' || state.radioChoices.tipTreninga === 'Vežbam samostalno');
+    // Conditional skip: 22 → 23 (Kućna varijanta) or 22 → 24 (Teretana)
     var nextStep = step + 1;
-    if (step === 22 && skipsRekviziti) {
+    if (step === 22 && state.radioChoices.tipTreninga === 'Teretana') {
       nextStep = 24; // skip rekviziti
     }
     if (nextStep > TOTAL_STEPS) {
@@ -783,8 +781,7 @@
     if (step <= 1) return;
     var prevStep = step - 1;
     // If we skipped step 23 going forward, also skip it going back
-    var skipsRekvizitiBack = (state.radioChoices.tipTreninga === 'Teretana' || state.radioChoices.tipTreninga === 'Vežbam samostalno');
-    if (step === 24 && skipsRekvizitiBack) {
+    if (step === 24 && state.radioChoices.tipTreninga === 'Teretana') {
       prevStep = 22;
     }
     showStep(prevStep, 'backward');
@@ -1206,7 +1203,7 @@
     }
 
     var payload = {
-      form_id: 'food_coaching_upitnik',
+      form_id: 'reshape90_upitnik',
       fullName: fullName,
       firstName: firstName,
       lastName: lastName,
@@ -1243,7 +1240,7 @@
       vezbanje: document.getElementById('vezbanje').value.trim(),
       poslednji_trening: document.getElementById('poslednjiTrening').value.trim(),
       tip_treninga: state.radioChoices.tipTreninga || '',
-      rekviziti: (state.radioChoices.tipTreninga === 'Teretana' || state.radioChoices.tipTreninga === 'Vežbam samostalno') ? '' : document.getElementById('rekviziti').value.trim(),
+      rekviziti: state.radioChoices.tipTreninga === 'Teretana' ? '' : document.getElementById('rekviziti').value.trim(),
       spremnost: state.likertChoice || '',
       datum_starta: document.getElementById('datumStarta').value,
       pristajem: state.radioChoices.pristajem || '',
