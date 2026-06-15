@@ -13,7 +13,31 @@
   // =========================================================
   //   COUNTRIES (kao u prvoj formi)
   // =========================================================
-  var COUNTRIES = [
+  // SVE zemlje (libphonenumber + srpska imena preko Intl.DisplayNames). Donja lista je fallback.
+  var COUNTRIES = (function buildAllCountries() {
+    if (!window.libphonenumber || !libphonenumber.getCountries) return null;
+    var names = null;
+    try { names = new Intl.DisplayNames(['sr-Latn', 'sr', 'en'], { type: 'region' }); } catch (e) {}
+    var PRIORITY = ['RS', 'BA', 'ME', 'HR', 'SI', 'MK'];
+    var all = [];
+    libphonenumber.getCountries().forEach(function (code) {
+      var dial;
+      try { dial = '+' + libphonenumber.getCountryCallingCode(code); } catch (e) { return; }
+      var nm = code;
+      if (names) { try { nm = names.of(code) || code; } catch (e2) {} }
+      all.push({ c: code, n: nm, d: dial });
+    });
+    if (!all.length) return null;
+    var inPriority = {};
+    PRIORITY.forEach(function (p) { inPriority[p] = true; });
+    var top = [];
+    PRIORITY.forEach(function (p) {
+      for (var i = 0; i < all.length; i++) { if (all[i].c === p) { top.push(all[i]); break; } }
+    });
+    var rest = all.filter(function (x) { return !inPriority[x.c]; })
+      .sort(function (a, b) { return a.n.localeCompare(b.n, 'sr'); });
+    return top.concat(rest);
+  })() || [
     { c: 'RS', n: 'Srbija',              d: '+381' },
     { c: 'BA', n: 'Bosna i Hercegovina', d: '+387' },
     { c: 'ME', n: 'Crna Gora',           d: '+382' },
