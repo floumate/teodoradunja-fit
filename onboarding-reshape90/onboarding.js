@@ -18,13 +18,14 @@
     if (!window.libphonenumber || !libphonenumber.getCountries) return null;
     var names = null;
     try { names = new Intl.DisplayNames(['sr-Latn', 'sr', 'en'], { type: 'region' }); } catch (e) {}
-    var PRIORITY = ['RS', 'BA', 'ME', 'HR', 'SI', 'MK'];
+    var PRIORITY = ['RS', 'BA', 'ME', 'HR', 'SI', 'MK', 'BG'];
     var all = [];
     libphonenumber.getCountries().forEach(function (code) {
       var dial;
       try { dial = '+' + libphonenumber.getCountryCallingCode(code); } catch (e) { return; }
       var nm = code;
       if (names) { try { nm = names.of(code) || code; } catch (e2) {} }
+      if (code === 'MK') nm = 'Makedonija';
       all.push({ c: code, n: nm, d: dial });
     });
     if (!all.length) return null;
